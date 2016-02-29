@@ -28,6 +28,7 @@ bot = Cinch::Bot.new do
     c.password = Settings.irc.password
     c.plugins.plugins = [GameTickPlugin]
     c.port = Settings.irc.port
+    c.realname = Settings.irc.realname
     c.server = Settings.irc.server
     c.ssl.use = Settings.irc.ssl
     c.ssl.verify = Rails.env.production?

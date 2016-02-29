@@ -4,6 +4,7 @@ defaults: &defaults
     nickname: "<%= ENV['IRC_NICKNAME'] %>"
     password: "<%= ENV['IRC_PASSWORD'] %>"
     port: <%= ENV.fetch('IRC_PORT', 6667).to_i %>
+    realname: "<%= ENV['IRC_REALNAME'] %>"
     server: "<%= ENV['IRC_SERVER'] %>"
     ssl: <%= ENV['IRC_SSL'] == 'true' ? 'true' : 'false' %>
     username: "<%= ENV['IRC_USERNAME'] %>"
