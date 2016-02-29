@@ -1,0 +1,38 @@
+#!/usr/bin/env ruby
+
+require_relative '../config/environment'
+Bundler.require :irc
+
+Dotenv.load
+
+class GameTickPlugin
+  include Cinch::Plugin
+
+  timer 10, method: :tick
+
+  def initialize(*)
+    super
+    @tick = 1
+  end
+
+  def tick
+    Channel('##').send "Game tick: #{@tick} at #{Time.now}"
+    @tick += 1
+  end
+end
+
+bot = Cinch::Bot.new do
+  configure do |c|
+    c.channels = Settings.irc.channels.split(',')
+    c.nick = Settings.irc.nickname
+    c.password = Settings.irc.password
+    c.plugins.plugins = [GameTickPlugin]
+    c.port = Settings.irc.port
+    c.server = Settings.irc.server
+    c.ssl.use = Settings.irc.ssl
+    c.ssl.verify = Rails.env.production?
+    c.user = Settings.irc.username
+  end
+end
+
+bot.start

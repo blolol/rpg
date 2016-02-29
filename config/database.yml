@@ -1,0 +1,17 @@
+defaults: &defaults
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch('RAILS_MAX_THREADS', 5) %>
+  url: <%= ENV['DATABASE_URL'] %>
+
+development:
+  <<: *defaults
+  database: blolol_rpg_development
+
+production:
+  <<: *defaults
+  database: blolol_rpg_production
+
+test:
+  <<: *defaults
+  database: blolol_rpg_test

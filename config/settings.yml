@@ -1,0 +1,18 @@
+defaults: &defaults
+  irc:
+    channels: "<%= ENV['IRC_CHANNELS'] %>"
+    nickname: "<%= ENV['IRC_NICKNAME'] %>"
+    password: "<%= ENV['IRC_PASSWORD'] %>"
+    port: <%= ENV.fetch('IRC_PORT', 6667).to_i %>
+    server: "<%= ENV['IRC_SERVER'] %>"
+    ssl: <%= ENV['IRC_SSL'] == 'true' ? 'true' : 'false' %>
+    username: "<%= ENV['IRC_USERNAME'] %>"
+
+development:
+  <<: *defaults
+
+production:
+  <<: *defaults
+
+test:
+  <<: *defaults
