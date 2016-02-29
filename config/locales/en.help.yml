@@ -1,9 +1,15 @@
 en:
   irc:
     help:
+      characters: |
+        Usage: characters
+        List your characters.
       characters:create: |
         Usage: characters:create <character name> <character class>
         Create a new character named <character name> of class <character class>.
+      characters:list: |
+        Usage: characters:list
+        List your characters.
       help: |
         Usage: help <command>
         Display help for <command>.
