@@ -5,28 +5,12 @@ Bundler.require :irc
 
 Dotenv.load
 
-class GameTickPlugin
-  include Cinch::Plugin
-
-  timer 10, method: :tick
-
-  def initialize(*)
-    super
-    @tick = 1
-  end
-
-  def tick
-    Channel('##').send "Game tick: #{@tick} at #{Time.now}"
-    @tick += 1
-  end
-end
-
 bot = Cinch::Bot.new do
   configure do |c|
     c.channels = Settings.irc.channels.split(',')
     c.nick = Settings.irc.nickname
     c.password = Settings.irc.password
-    c.plugins.plugins = [GameTickPlugin]
+    c.plugins.plugins = [CharactersBot]
     c.port = Settings.irc.port
     c.realname = Settings.irc.realname
     c.server = Settings.irc.server
