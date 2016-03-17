@@ -2,10 +2,13 @@ class CharactersBot
   include ApplicationBot
 
   # Matches
-  match /characters(?:list)?/, method: :list
-  match /characters:create (?<name>\w+) (?<class>\w+)/, method: :create
+  match /characters:list/, method: :list
+  match /characters:create/, method: :create
 
-  def create(message, character_name, character_class)
+  def create(message)
+    character_name = arguments.first
+    character_class = arguments.last
+
     character = Character.new(character_class: sterilize(character_class),
       name: sterilize(character_name), owner: message.user.user)
 

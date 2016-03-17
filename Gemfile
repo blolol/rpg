@@ -27,4 +27,5 @@ end
 group :irc do
   gem 'cinch', '~> 2.3.1'
   gem 'dotenv'
+  gem 'harby', github: 'raws/harby', tag: 'v1.1.0'
 end

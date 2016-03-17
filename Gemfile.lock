@@ -1,3 +1,11 @@
+GIT
+  remote: git://github.com/raws/harby.git
+  revision: ee8c098c6fa4ae9ad09ae55f37118818afeeee6a
+  tag: v1.1.0
+  specs:
+    harby (1.1.0)
+      treetop (~> 1.6, >= 1.6.3)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -86,6 +94,7 @@ GEM
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
     pg (0.18.4)
+    polyglot (0.3.5)
     puma (3.0.2)
     rack (2.0.0.alpha)
       json
@@ -143,6 +152,8 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.5)
     tilt (2.0.2)
+    treetop (1.6.5)
+      polyglot (~> 0.3)
     turbolinks (5.0.0.beta2)
       turbolinks-source
     turbolinks-source (5.0.0.beta2)
@@ -167,6 +178,7 @@ DEPENDENCIES
   cinch (~> 2.3.1)
   coffee-rails (~> 4.1.0)
   dotenv
+  harby!
   jbuilder (~> 2.0)
   jquery-rails
   listen (~> 3.0.5)
