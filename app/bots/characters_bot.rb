@@ -38,7 +38,7 @@ class CharactersBot
   end
 
   def list(message)
-    characters = current_user.characters.order(level: :desc, name: :asc)
+    characters = current_user.characters.order(level: :desc, xp: :desc, name: :asc)
 
     if characters.any?
       message.reply "You have #{pluralize characters.size, 'character'}: " +

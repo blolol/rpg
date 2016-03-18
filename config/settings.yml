@@ -1,4 +1,6 @@
 defaults: &defaults
+  game:
+    xp_per_minute: <%= ENV.fetch('XP_PER_MINUTE', 69).to_i %>
   irc:
     channels: "<%= ENV['IRC_CHANNELS'] %>"
     nickname: "<%= ENV['IRC_NICKNAME'] %>"
