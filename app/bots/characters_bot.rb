@@ -2,8 +2,8 @@ class CharactersBot
   include ApplicationBot
 
   # Matches
-  match /characters:list/, method: :list
-  match /characters:create/, method: :create
+  match /chars:list/, method: :list
+  match /chars:create/, method: :create
 
   def create(message)
     character_name = arguments.first
