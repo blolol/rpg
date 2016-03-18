@@ -11,23 +11,40 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160229041026) do
+ActiveRecord::Schema.define(version: 20160318063303) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "characters", force: :cascade do |t|
-    t.string   "name",                        null: false
-    t.string   "owner",                       null: false
-    t.string   "character_class",             null: false
-    t.integer  "level",           default: 1, null: false
-    t.integer  "xp",              default: 0, null: false
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.string   "name",                   null: false
+    t.integer  "level",      default: 1, null: false
+    t.string   "role",                   null: false
+    t.integer  "user_id",                null: false
+    t.integer  "xp",         default: 0, null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
-  add_index "characters", ["name", "owner"], name: "index_characters_on_name_and_owner", using: :btree
   add_index "characters", ["name"], name: "index_characters_on_name", unique: true, using: :btree
-  add_index "characters", ["owner"], name: "index_characters_on_owner", using: :btree
+  add_index "characters", ["user_id"], name: "index_characters_on_user_id", using: :btree
+
+  create_table "sessions", force: :cascade do |t|
+    t.integer  "character_id", null: false
+    t.integer  "user_id",      null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "sessions", ["character_id"], name: "index_sessions_on_character_id", using: :btree
+  add_index "sessions", ["user_id"], name: "index_sessions_on_user_id", unique: true, using: :btree
+
+  create_table "users", force: :cascade do |t|
+    t.string   "name",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "users", ["name"], name: "index_users_on_name", unique: true, using: :btree
 
 end

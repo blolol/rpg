@@ -1,9 +1,9 @@
 en:
   irc:
     help:
-      characters: |
-        Usage: characters
-        List your characters.
+      characters:choose: |
+        Usage: characters:choose <character name>
+        Start playing as <character name>.
       characters:create: |
         Usage: characters:create <character name> <character class>
         Create a new character named <character name> of class <character class>.

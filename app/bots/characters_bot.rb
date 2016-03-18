@@ -2,15 +2,32 @@ class CharactersBot
   include ApplicationBot
 
   # Matches
-  match /chars:list/, method: :list
-  match /chars:create/, method: :create
+  match /characters:list/, method: :list
+  match /characters:choose/, method: :choose
+  match /characters:create/, method: :create
+
+  def choose(message)
+    character_name = arguments.first
+    character = current_user.characters.find_by('name ILIKE ?', character_name)
+
+    if character
+      if character != current_user.current_character
+        character.choose!
+        message.reply "#{character} has entered the game!"
+      else
+        message.reply "You're already playing as #{character.name}!", prefix: true
+      end
+    else
+      message.reply "You don't have a character named #{character_name} :(", prefix: true
+    end
+  end
 
   def create(message)
     character_name = arguments.first
     character_class = arguments.last
 
-    character = Character.new(character_class: sterilize(character_class),
-      name: sterilize(character_name), owner: message.user.user)
+    character = current_user.characters.build(name: sterilize(character_name),
+      role: sterilize(character_class))
 
     if character.save
       message.reply "#{character} has entered the game!"
@@ -21,7 +38,7 @@ class CharactersBot
   end
 
   def list(message)
-    characters = Character.where(owner: message.user.user)
+    characters = current_user.characters.order(level: :desc, name: :asc)
 
     if characters.any?
       message.reply "You have #{pluralize characters.size, 'character'}: " +
