@@ -1,6 +1,10 @@
 defaults: &defaults
+  blolol:
+    api_key: "<%= ENV['BLOLOL_API_KEY'] %>"
+    api_secret: "<%= ENV['BLOLOL_API_SECRET'] %>"
   game:
-    xp_per_minute: <%= ENV.fetch('XP_PER_MINUTE', 4).to_i %>
+    base_xp_per_minute: <%= ENV.fetch('BASE_XP_PER_MIN', 4).to_i %>
+    premium_xp_per_minute: <%= ENV.fetch('PREMIUM_XP_PER_MIN', 1).to_i %>
   irc:
     channels: "<%= ENV['IRC_CHANNELS'] %>"
     nickname: "<%= ENV['IRC_NICKNAME'] %>"

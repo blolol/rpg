@@ -18,6 +18,10 @@ class Session < ApplicationRecord
 
   private
 
+  def base_xp_earned_since_last_tick
+    (minutes_since_last_tick * Settings.game.base_xp_per_minute).round
+  end
+
   def character_must_belong_to_user
     if character.user != user
       errors.add :base, "Character #{character.name} doesn't belong to user #{user.name}"
@@ -28,7 +32,15 @@ class Session < ApplicationRecord
     (Time.current - updated_at) / 60
   end
 
+  def premium_xp_earned_since_last_tick
+    if user.premium?
+      (minutes_since_last_tick * Settings.game.premium_xp_per_minute).round
+    else
+      0
+    end
+  end
+
   def xp_earned_since_last_tick
-    (minutes_since_last_tick * Settings.game.xp_per_minute).round
+    base_xp_earned_since_last_tick + premium_xp_earned_since_last_tick
   end
 end
