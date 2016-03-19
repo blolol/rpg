@@ -38,7 +38,7 @@ class Character < ApplicationRecord
   end
 
   def xp_required_for_level(level)
-    (600 * (1.16 ** level)).round
+    (600 * (level ** 1.76)).round
   end
 
   def xp_required_for_next_level
