@@ -18,7 +18,7 @@ class Character < ApplicationRecord
   end
 
   def choose!
-    User.transaction do
+    user.with_lock do
       user.session&.destroy
       user.create_session character: self
     end

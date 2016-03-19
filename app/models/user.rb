@@ -9,4 +9,10 @@ class User < ApplicationRecord
   def current_character
     session&.character
   end
+
+  def tick!
+    if session
+      with_lock { session.tick! }
+    end
+  end
 end
