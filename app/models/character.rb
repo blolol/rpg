@@ -42,6 +42,10 @@ class Character < ApplicationRecord
     !!session
   end
 
+  def penalized?
+    xp_penalty.positive?
+  end
+
   def remove_effects(type)
     effects.where(type: type).destroy_all
   end

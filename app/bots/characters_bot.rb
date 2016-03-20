@@ -42,14 +42,11 @@ class CharactersBot
     character = character_name ? find_character!(character_name) : current_user.current_character
 
     if character
-      message.reply Format(:bold, :underline, character.to_s)
-      message.reply 'Effects: ' +
-        character.effects.map { |effect| "#{effect.name} (#{effect.description})" }.join(', ')
+      character = CharacterInfoBotPresenter.new(character)
 
-      if character.xp_penalty.positive?
-        message.reply "Penalty: #{character.xp_penalty} additional XP required to reach level " \
-          "#{character.level + 1}"
-      end
+      message.reply character.name_and_level
+      message.reply character.effect_names_and_descriptions
+      message.reply character.penalty_description
     else
       message.reply 'You have no active character :(', prefix: true
     end
@@ -59,16 +56,12 @@ class CharactersBot
     characters = current_user.characters.order(level: :desc, xp: :desc, name: :asc)
 
     if characters.any?
-      message.reply Format(:bold, :underline, "#{message.user.nick}'s Characters")
+      characters = CharacterListBotPresenter.new(message.user.nick, characters)
 
-      characters.each_with_index do |character, index|
-        index = "#{index + 1}. "
+      message.reply characters.header
 
-        if character.current?
-          message.reply Format(:bold, index + character.to_s) + ' (current)'
-        else
-          message.reply index + character.to_s
-        end
+      characters.each do |character|
+        message.reply character.index_and_description
       end
     else
       message.reply 'You have no characters :(', prefix: true
@@ -86,7 +79,7 @@ class CharactersBot
 
     if character.save
       message.reply "#{old_name} is now known as #{character}, and must earn an additional " \
-        "#{additional_xp_penalty} XP to level up!"
+        "#{additional_xp_penalty} XP to reach level #{character.level.next}!"
     else
       message.reply "Couldn't rename #{old_name}! #{character.errors.full_messages.first}",
         prefix: true
