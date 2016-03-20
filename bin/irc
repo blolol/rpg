@@ -6,12 +6,14 @@ Dotenv.load
 bot = Cinch::Bot.new do
   configure do |c|
     c.channels = Settings.irc.channels.split(',')
+    c.messages_per_second = 100
     c.nick = Settings.irc.nickname
     c.password = Settings.irc.password
     c.plugins.plugins = [CharactersBot, HelpBot]
     c.port = Settings.irc.port
     c.realname = Settings.irc.realname
     c.server = Settings.irc.server
+    c.server_queue_size = 1000
     c.ssl.use = Settings.irc.ssl
     c.ssl.verify = Rails.env.production?
     c.user = Settings.irc.username

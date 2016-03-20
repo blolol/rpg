@@ -38,6 +38,10 @@ class Character < ApplicationRecord
     end
   end
 
+  def current?
+    !!session
+  end
+
   def remove_effects(type)
     effects.where(type: type).destroy_all
   end

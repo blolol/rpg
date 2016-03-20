@@ -6,6 +6,7 @@ class CharactersBot
   command 'characters:choose' => :choose, required: 1
   command 'characters:create' => :create, required: 2
   command 'characters:delete' => :delete, required: 1
+  command 'characters:info' => :info
   command 'characters:rename' => :rename, required: 2
 
   def choose(message, character_name)
@@ -37,12 +38,38 @@ class CharactersBot
     message.reply "#{character} has been deleted forever :(", prefix: true
   end
 
+  def info(message, character_name = nil)
+    character = character_name ? find_character!(character_name) : current_user.current_character
+
+    if character
+      message.reply Format(:bold, :underline, character.to_s)
+      message.reply 'Effects: ' +
+        character.effects.map { |effect| "#{effect.name} (#{effect.description})" }.join(', ')
+
+      if character.xp_penalty.positive?
+        message.reply "Penalty: #{character.xp_penalty} additional XP required until level " \
+          "#{character.level + 1}"
+      end
+    else
+      message.reply 'You have no active character :(', prefix: true
+    end
+  end
+
   def list(message)
     characters = current_user.characters.order(level: :desc, xp: :desc, name: :asc)
 
     if characters.any?
-      message.reply "You have #{pluralize characters.size, 'character'}: " +
-        characters.map(&:to_s).join(', '), prefix: true
+      message.reply Format(:bold, :underline, "#{message.user.nick}'s Characters")
+
+      characters.each_with_index do |character, index|
+        index = "#{index + 1}. "
+
+        if character.current?
+          message.reply Format(:bold, index + character.to_s) + ' (current)'
+        else
+          message.reply index + character.to_s
+        end
+      end
     else
       message.reply 'You have no characters :(', prefix: true
     end
