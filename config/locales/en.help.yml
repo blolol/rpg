@@ -10,9 +10,13 @@ en:
       characters:create: |
         Usage: characters:create <character name> <character class>
         Create a new character named <character name> of class <character class>.
+      characters:delete: |
+        Usage: characters:delete <character name>
+        Delete the character named <character name>. Be very certain you want to do this!
       help: |
         Usage: help <command>
         Display help for <command>. Valid commands:
           characters
           characters:choose
           characters:create
+          characters:delete

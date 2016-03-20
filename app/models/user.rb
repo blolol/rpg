@@ -18,6 +18,10 @@ class User < ApplicationRecord
     session&.character
   end
 
+  def find_character(name)
+    characters.find_by 'name ILIKE ?', name
+  end
+
   def premium?
     blolol_metadata['roles'].include? 'premium'
   end

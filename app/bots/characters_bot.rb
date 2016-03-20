@@ -5,9 +5,10 @@ class CharactersBot
   command 'characters' => :list
   command 'characters:choose' => :choose, required: 1
   command 'characters:create' => :create, required: 2
+  command 'characters:delete' => :delete, required: 1
 
   def choose(message, character_name)
-    character = current_user.characters.find_by('name ILIKE ?', character_name)
+    character = current_user.find_character(character_name)
 
     if character
       if character != current_user.current_character
@@ -30,6 +31,17 @@ class CharactersBot
     else
       message.reply "Couldn't create your new character! #{character.errors.full_messages.first}.",
         prefix: true
+    end
+  end
+
+  def delete(message, character_name)
+    character = current_user.find_character(character_name)
+
+    if character
+      character.destroy
+      message.reply "#{character} has been deleted forever :(", prefix: true
+    else
+      message.reply "You don't have a character named #{character_name}!", prefix: true
     end
   end
 

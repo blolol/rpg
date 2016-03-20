@@ -10,19 +10,23 @@ module ApplicationBot
   end
 
   class_methods do
-    def command(name_and_method, required: 0)
-      command_name, command_method_name = *name_and_method.first
-      match_method_name = "__before__#{command_method_name}__"
+    def command(options)
+      command_name, command_method = *options.first
+      options.delete command_name
+      options.reverse_merge! required: 0
 
+      match_method_name = "__before__#{command_method}__"
       define_method match_method_name do |message|
-        if arguments.size >= required
-          __send__ command_method_name, message, *arguments
+        puts "required => #{options[:required].inspect}, arguments => #{arguments.inspect}"
+        if arguments.size >= options[:required]
+          __send__ command_method, message, *arguments
         else
           message.reply BotHelpTopic.new(command_name).to_s
         end
       end
 
-      match command_name, method: match_method_name
+      match_pattern = Regexp.new(Regexp.escape(command_name) + '(?!:).*')
+      match match_pattern, method: match_method_name
     end
   end
 
