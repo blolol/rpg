@@ -47,7 +47,7 @@ class CharactersBot
         character.effects.map { |effect| "#{effect.name} (#{effect.description})" }.join(', ')
 
       if character.xp_penalty.positive?
-        message.reply "Penalty: #{character.xp_penalty} additional XP required until level " \
+        message.reply "Penalty: #{character.xp_penalty} additional XP required to reach level " \
           "#{character.level + 1}"
       end
     else
