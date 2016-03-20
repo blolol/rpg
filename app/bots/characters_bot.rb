@@ -1,13 +1,12 @@
 class CharactersBot
   include ApplicationBot
 
-  # Matches
-  match /characters:list/, method: :list
-  match /characters:choose/, method: :choose
-  match /characters:create/, method: :create
+  # Commands
+  command 'characters' => :list
+  command 'characters:choose' => :choose, required: 1
+  command 'characters:create' => :create, required: 2
 
-  def choose(message)
-    character_name = arguments.first
+  def choose(message, character_name)
     character = current_user.characters.find_by('name ILIKE ?', character_name)
 
     if character
@@ -22,10 +21,7 @@ class CharactersBot
     end
   end
 
-  def create(message)
-    character_name = arguments.first
-    character_class = arguments.last
-
+  def create(message, character_name, character_class)
     character = current_user.characters.build(name: sterilize(character_name),
       role: sterilize(character_class))
 

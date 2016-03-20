@@ -31,6 +31,6 @@ class BotArguments
   end
 
   def unparsed_arguments
-    @unparsed_arguments ||= command_and_unparsed_arguments.gsub(/^\S+\s+/, '')
+    @unparsed_arguments ||= command_and_unparsed_arguments.gsub(/\A\S+\s*/, '')
   end
 end

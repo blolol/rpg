@@ -1,16 +1,10 @@
 class HelpBot
   include ApplicationBot
 
-  # Matches
-  match /help (\S+)/, method: :help
+  # Commands
+  command 'help' => :help, required: 1
 
   def help(message, topic)
-    key = "irc.help.#{topic}"
-
-    if I18n.exists?(key)
-      message.reply I18n.t(key)
-    else
-      message.reply "Sorry! “#{topic}” isn't a valid RPG command."
-    end
+    message.reply BotHelpTopic.new(topic).to_s
   end
 end

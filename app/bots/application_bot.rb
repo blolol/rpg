@@ -1,11 +1,29 @@
 module ApplicationBot
   extend ActiveSupport::Concern
-  include Cinch::Plugin
 
   included do
+    include Cinch::Plugin
+
     set :prefix, ->(message) { Regexp.new('^' + Regexp.escape(Settings.irc.prefix) + '\s+') }
     hook :pre, method: :load_current_user
     hook :pre, method: :parse_arguments
+  end
+
+  class_methods do
+    def command(name_and_method, required: 0)
+      command_name, command_method_name = *name_and_method.first
+      match_method_name = "__before__#{command_method_name}__"
+
+      define_method match_method_name do |message|
+        if arguments.size >= required
+          __send__ command_method_name, message, *arguments
+        else
+          message.reply BotHelpTopic.new(command_name).to_s
+        end
+      end
+
+      match command_name, method: match_method_name
+    end
   end
 
   private
