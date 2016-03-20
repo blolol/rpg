@@ -5,7 +5,8 @@ module ApplicationBot
     include Cinch::Plugin
 
     set :prefix, ->(message) { Regexp.new('^' + Regexp.escape(Settings.irc.prefix) + '\s+') }
-    hook :pre, method: :load_current_user
+    hook :pre, method: :cache_message
+    hook :pre, method: :cache_current_user
     hook :pre, method: :parse_arguments
   end
 
@@ -17,9 +18,10 @@ module ApplicationBot
 
       match_method_name = "__before__#{command_method}__"
       define_method match_method_name do |message|
-        puts "required => #{options[:required].inspect}, arguments => #{arguments.inspect}"
         if arguments.size >= options[:required]
-          __send__ command_method, message, *arguments
+          catch :halt do
+            __send__ command_method, message, *arguments
+          end
         else
           message.reply BotHelpTopic.new(command_name).to_s
         end
@@ -36,13 +38,21 @@ module ApplicationBot
     Thread.current[:blolol_rpg_arguments]
   end
 
+  def cache_current_user(message)
+    Thread.current[:blolol_rpg_current_user_name] = message.user.user
+  end
+
+  def cache_message(message)
+    Thread.current[:blolol_rpg_message] = message
+  end
+
   def current_user
     Thread.current[:blolol_rpg_current_user] ||=
       User.find_or_create_by(name: Thread.current[:blolol_rpg_current_user_name])
   end
 
-  def load_current_user(message)
-    Thread.current[:blolol_rpg_current_user_name] = message.user.user
+  def message
+    Thread.current[:blolol_rpg_message]
   end
 
   def parse_arguments(message)

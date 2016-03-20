@@ -11,6 +11,7 @@ class Character < ApplicationRecord
   validates :user, presence: true
   validates :xp, presence: true,
     numericality: { greater_than_or_equal_to: 0, only_integer: true }
+  validates :xp_penalty, numericality: { greater_than_or_equal_to: 0, only_integer: true }
 
   def add_xp!(additional_xp)
     self.xp += additional_xp
@@ -28,20 +29,25 @@ class Character < ApplicationRecord
     "#{name} the Level #{level} #{role} (#{xp}/#{xp_required_for_next_level} XP)"
   end
 
+  def xp_required_for_next_level
+    base_xp_required_for_next_level + xp_penalty
+  end
+
   private
 
   def adjust_level!
     while xp >= xp_required_for_next_level do
       self.xp -= xp_required_for_next_level
       self.level += 1
+      self.xp_penalty = 0
     end
+  end
+
+  def base_xp_required_for_next_level
+    xp_required_for_level level.next
   end
 
   def xp_required_for_level(level)
     (600 * (level ** 1.76)).round
-  end
-
-  def xp_required_for_next_level
-    xp_required_for_level level.next
   end
 end

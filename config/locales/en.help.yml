@@ -13,6 +13,10 @@ en:
       characters:delete: |
         Usage: characters:delete <character name>
         Delete the character named <character name>. Be very certain you want to do this!
+      characters:rename: |
+        Usage: characters:rename <old character name> <new character name>
+        Rename the character named <old character name> to <new character name>.
+        Penalty: 10% additional XP required to level up.
       help: |
         Usage: help <command>
         Display help for <command>. Valid commands:
@@ -20,3 +24,4 @@ en:
           characters:choose
           characters:create
           characters:delete
+          characters:rename
