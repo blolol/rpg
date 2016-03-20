@@ -10,7 +10,7 @@ class Session < ApplicationRecord
 
   def tick!
     character.with_lock do
-      character.add_xp! xp_earned_since_last_tick
+      character.add_xp xp_earned_since_last_tick
       character.save!
       touch
     end
@@ -28,19 +28,17 @@ class Session < ApplicationRecord
     end
   end
 
+  def effect_xp_earned_since_last_tick
+    character.effects.sum do |effect|
+      effect.xp_earned_since_last_tick minutes_since_last_tick
+    end
+  end
+
   def minutes_since_last_tick
     (Time.current - updated_at) / 60
   end
 
-  def premium_xp_earned_since_last_tick
-    if user.premium?
-      (minutes_since_last_tick * Settings.game.premium_xp_per_minute).round
-    else
-      0
-    end
-  end
-
   def xp_earned_since_last_tick
-    base_xp_earned_since_last_tick + premium_xp_earned_since_last_tick
+    base_xp_earned_since_last_tick + effect_xp_earned_since_last_tick
   end
 end

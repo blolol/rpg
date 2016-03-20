@@ -1,5 +1,6 @@
 class Character < ApplicationRecord
   # Associations
+  has_many :effects, dependent: :destroy
   has_one :session, dependent: :destroy
   belongs_to :user
 
@@ -13,7 +14,19 @@ class Character < ApplicationRecord
     numericality: { greater_than_or_equal_to: 0, only_integer: true }
   validates :xp_penalty, numericality: { greater_than_or_equal_to: 0, only_integer: true }
 
-  def add_xp!(additional_xp)
+  def add_effect(effect, replace: true)
+    if replace == false && effects.where(type: effect.type).any?
+      return effects
+    end
+
+    unless effect.stackable?
+      remove_effects effect.type
+    end
+
+    effects << effect
+  end
+
+  def add_xp(additional_xp)
     self.xp += additional_xp
     adjust_level!
   end
@@ -23,6 +36,10 @@ class Character < ApplicationRecord
       user.session&.destroy
       user.create_session character: self
     end
+  end
+
+  def remove_effects(type)
+    effects.where(type: type).destroy_all
   end
 
   def to_s

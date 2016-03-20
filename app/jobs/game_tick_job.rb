@@ -1,4 +1,4 @@
-class UsersTickJob < ApplicationJob
+class GameTickJob < ApplicationJob
   queue_as :default
 
   def perform
