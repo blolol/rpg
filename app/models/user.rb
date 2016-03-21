@@ -1,51 +1,40 @@
 class User < ApplicationRecord
   # Associations
+  has_one :blolol_user_data, dependent: :destroy
   has_many :characters, dependent: :destroy
   has_one :session, dependent: :destroy
 
   # Validations
+  validates :blolol_user_data, presence: true
   validates :name, presence: true, uniqueness: true
 
-  def blolol_metadata
-    if blolol_metadata_stale?
-      refresh_blolol_metadata
-    end
+  # Callbacks
+  before_validation :ensure_blolol_user_data, on: :create
 
-    read_attribute :blolol_metadata
+  # Delegates
+  delegate :premium?, to: :blolol_user_data
+
+  def blolol_user_data
+    super&.refreshed
   end
 
   def current_character
     session&.character
   end
 
-  def find_character(name)
-    characters.find_by 'name ILIKE ?', name
+  def ensure_blolol_user_data
+    unless blolol_user_data
+      create_blolol_user_data! BlololUserData.fetch(name)
+    end
   end
 
-  def premium?
-    blolol_metadata['roles'].include? 'premium'
+  def find_character(name)
+    characters.find_by 'name ILIKE ?', name
   end
 
   def tick!
     if session
       with_lock { session.tick! }
-    end
-  end
-
-  private
-
-  def blolol_metadata_stale?
-    blolol_metadata_updated_at.nil? || blolol_metadata_updated_at < 1.day.ago
-  end
-
-  def refresh_blolol_metadata
-    request = BlololApiRequest.new("/users/#{name}")
-
-    if request.ok?
-      update! blolol_metadata: request.body['user'], blolol_metadata_updated_at: Time.current
-    else
-      raise "Error refreshing Blolol metadata for #{name}. status=#{request.status} " \
-        "body=#{request.response.body}"
     end
   end
 end
