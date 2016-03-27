@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160320212318) do
+ActiveRecord::Schema.define(version: 20160327003900) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,14 +28,15 @@ ActiveRecord::Schema.define(version: 20160320212318) do
   add_index "blolol_user_data", ["user_id"], name: "index_blolol_user_data_on_user_id", unique: true, using: :btree
 
   create_table "characters", force: :cascade do |t|
-    t.string   "name",                   null: false
-    t.integer  "level",      default: 1, null: false
-    t.string   "role",                   null: false
-    t.integer  "user_id",                null: false
-    t.integer  "xp",         default: 0, null: false
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-    t.integer  "xp_penalty", default: 0, null: false
+    t.string   "name",                                   null: false
+    t.integer  "level",         default: 1,              null: false
+    t.string   "role",                                   null: false
+    t.integer  "user_id",                                null: false
+    t.integer  "xp",            default: 0,              null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.integer  "xp_penalty",    default: 0,              null: false
+    t.datetime "last_level_at", default: -> { "now()" }, null: false
   end
 
   add_index "characters", ["name"], name: "index_characters_on_name", unique: true, using: :btree

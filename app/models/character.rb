@@ -5,6 +5,7 @@ class Character < ApplicationRecord
   belongs_to :user
 
   # Validations
+  validates :last_level_at, presence: true
   validates :level, presence: true,
     numericality: { greater_than_or_equal_to: 1, only_integer: true }
   validates :name, presence: true, uniqueness: true
@@ -13,6 +14,10 @@ class Character < ApplicationRecord
   validates :xp, presence: true,
     numericality: { greater_than_or_equal_to: 0, only_integer: true }
   validates :xp_penalty, numericality: { greater_than_or_equal_to: 0, only_integer: true }
+
+  # Callbacks
+  define_model_callbacks :level_up
+  after_level_up :announce_level_up_in_chat
 
   def add_effect(effect, replace: true)
     if replace == false && effects.where(type: effect.type).any?
@@ -62,10 +67,18 @@ class Character < ApplicationRecord
 
   def adjust_level!
     while xp >= xp_required_for_next_level do
-      self.xp -= xp_required_for_next_level
-      self.level += 1
-      self.xp_penalty = 0
+      run_callbacks :level_up do
+        self.xp -= xp_required_for_next_level
+        self.level += 1
+        self.xp_penalty = 0
+        self.last_level_at = Time.current
+      end
     end
+  end
+
+  def announce_level_up_in_chat
+    LevelUpAnnouncementJob.perform_later self, level, xp_required_for_next_level,
+      last_level_at_was.iso8601
   end
 
   def base_xp_required_for_next_level

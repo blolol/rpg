@@ -3,8 +3,18 @@ class BlololApiClient
     @path = path
   end
 
+  def self.chat_event(from:, to:, text:)
+    body = { from: from, to: to, text: text, type: 'message' }
+    new('/chat/events').post body
+  end
+
   def get
     Response.new(Excon.get(uri, headers: headers)).raise_error_on_failure!
+  end
+
+  def post(body = nil)
+    body = body ? JSON.generate(body) : nil
+    Response.new(Excon.post(uri, body: body, headers: headers)).raise_error_on_failure!
   end
 
   def self.user(name)
