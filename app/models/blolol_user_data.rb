@@ -34,6 +34,6 @@ class BlololUserData < ApplicationRecord
   end
 
   def stale?
-    updated_at < 1.day.ago
+    updated_at && updated_at < 1.day.ago
   end
 end

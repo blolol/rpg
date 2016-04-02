@@ -3,6 +3,10 @@
 require_relative '../config/environment'
 Dotenv.load
 
+if Rails.env.development?
+  ActiveRecord::Base.logger = Logger.new($stdout)
+end
+
 bot = Cinch::Bot.new do
   configure do |c|
     c.channels = Settings.irc.channels.split(',')

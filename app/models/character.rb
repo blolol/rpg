@@ -5,7 +5,6 @@ class Character < ApplicationRecord
   belongs_to :user
 
   # Validations
-  validates :last_level_at, presence: true
   validates :level, presence: true,
     numericality: { greater_than_or_equal_to: 1, only_integer: true }
   validates :name, presence: true, uniqueness: true
@@ -45,6 +44,10 @@ class Character < ApplicationRecord
 
   def current?
     !!session
+  end
+
+  def last_level_at
+    super || created_at
   end
 
   def penalized?

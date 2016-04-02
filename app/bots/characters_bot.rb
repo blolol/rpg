@@ -25,6 +25,7 @@ class CharactersBot
       role: sterilize(character_class))
 
     if character.save
+      character.choose!
       message.reply "#{character} has entered the game!"
     else
       message.reply "Couldn't create your new character! #{character.errors.full_messages.first}.",

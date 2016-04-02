@@ -24,7 +24,7 @@ class User < ApplicationRecord
 
   def ensure_blolol_user_data
     unless blolol_user_data
-      create_blolol_user_data! BlololUserData.fetch(name)
+      build_blolol_user_data BlololUserData.fetch(name)
     end
   end
 

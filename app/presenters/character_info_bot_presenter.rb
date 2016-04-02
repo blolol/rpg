@@ -4,11 +4,15 @@ class CharacterInfoBotPresenter < ApplicationBotPresenter
   end
 
   def effect_names_and_descriptions
-    names_and_descriptions = @character.effects.map do |effect|
-      "#{effect.name} (#{effect.description})"
-    end.join(', ')
+    if @character.effects.exists?
+      names_and_descriptions = @character.effects.map do |effect|
+        "#{effect.name} (#{effect.description})"
+      end.join(', ')
 
-    "Effects: #{names_and_descriptions}"
+      "Effects: #{names_and_descriptions}"
+    else
+      'No active effects'
+    end
   end
 
   def name_and_level
