@@ -17,6 +17,7 @@ class Character < ApplicationRecord
   # Callbacks
   define_model_callbacks :level_up
   after_level_up :announce_level_up_in_chat
+  after_create :refresh_premium_subscriber_effect!
 
   def add_effect(effect, replace: true)
     if replace == false && effects.where(type: effect.type).any?
@@ -52,6 +53,16 @@ class Character < ApplicationRecord
 
   def penalized?
     xp_penalty.positive?
+  end
+
+  def refresh_premium_subscriber_effect!
+    if user.premium?
+      add_effect PremiumSubscriberEffect.new, replace: false
+    else
+      remove_effects 'PremiumSubscriberEffect'
+    end
+
+    save!
   end
 
   def remove_effects(type)
