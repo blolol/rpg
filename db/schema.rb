@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160402042215) do
+ActiveRecord::Schema.define(version: 20160402053716) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,6 +50,16 @@ ActiveRecord::Schema.define(version: 20160402042215) do
   end
 
   add_index "effects", ["character_id"], name: "index_effects_on_character_id", using: :btree
+
+  create_table "items", force: :cascade do |t|
+    t.integer "character_id",             null: false
+    t.integer "level",                    null: false
+    t.string  "name",         limit: 255, null: false
+    t.string  "rarity",       limit: 255, null: false
+    t.string  "slot",         limit: 255, null: false
+  end
+
+  add_index "items", ["character_id"], name: "index_items_on_character_id", using: :btree
 
   create_table "sessions", force: :cascade do |t|
     t.integer  "character_id", null: false

@@ -1,6 +1,10 @@
 class Character < ApplicationRecord
+  # Constants
+  SLOTS = %w(chest feet head legs shoulder weapon)
+
   # Associations
   has_many :effects, dependent: :destroy
+  has_many :items, dependent: :destroy
   has_one :session, dependent: :destroy
   belongs_to :user
 
@@ -13,6 +17,7 @@ class Character < ApplicationRecord
   validates :xp, presence: true,
     numericality: { greater_than_or_equal_to: 0, only_integer: true }
   validates :xp_penalty, numericality: { greater_than_or_equal_to: 0, only_integer: true }
+  validate :must_have_max_one_item_per_slot
 
   # Callbacks
   define_model_callbacks :level_up
@@ -24,11 +29,20 @@ class Character < ApplicationRecord
       return effects
     end
 
-    unless effect.stackable?
-      remove_effects effect.type
-    end
+    transaction do
+      unless effect.stackable?
+        remove_effects effect.type
+      end
 
-    effects << effect
+      effects << effect
+    end
+  end
+
+  def add_item(item)
+    transaction do
+      items.where(slot: item.slot).destroy_all
+      items << item
+    end
   end
 
   def add_xp(additional_xp)
@@ -45,6 +59,10 @@ class Character < ApplicationRecord
 
   def current?
     !!session
+  end
+
+  def gear_score
+    items.sum :level
   end
 
   def last_level_at
@@ -70,7 +88,8 @@ class Character < ApplicationRecord
   end
 
   def to_s
-    "#{name} the Level #{level} #{role} (#{xp}/#{xp_required_for_next_level} XP)"
+    "#{name} the Level #{level} #{role} (#{xp}/#{xp_required_for_next_level} XP, " \
+      "#{gear_score} GS)"
   end
 
   def xp_required_for_next_level
@@ -97,6 +116,14 @@ class Character < ApplicationRecord
 
   def base_xp_required_for_next_level
     xp_required_for_level level.next
+  end
+
+  def must_have_max_one_item_per_slot
+    SLOTS.each do |slot|
+      if items.select { |item| item.slot == slot }.size > 1
+        errors.add :items, "can't have more than one item in the #{slot} slot"
+      end
+    end
   end
 
   def xp_required_for_level(level)

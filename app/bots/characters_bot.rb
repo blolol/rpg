@@ -48,6 +48,8 @@ class CharactersBot
       message.reply character.name_and_level
       message.reply character.effect_names_and_descriptions
       message.reply character.penalty_description
+      message.reply character.item_names_and_descriptions
+      message.reply character.gear_score
     else
       message.reply 'You have no active character :(', prefix: true
     end
