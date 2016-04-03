@@ -1,9 +1,12 @@
 class Character < ApplicationRecord
+  include Effectable
+
   # Constants
-  SLOTS = %w(chest feet head legs shoulder weapon).freeze
+  SLOTS = %w(chest feet finger head legs shoulder weapon).freeze
 
   # Associations
-  has_many :effects, dependent: :destroy
+  has_many_effects prefix: 'character'
+  has_many :item_effects, through: :items, class_name: 'Effect', source: :effects
   has_many :items, dependent: :destroy
   has_one :session, dependent: :destroy
   belongs_to :user
@@ -22,29 +25,7 @@ class Character < ApplicationRecord
   # Callbacks
   define_model_callbacks :level_up
   after_level_up :announce_level_up_in_chat
-  after_create :refresh_premium_subscriber_effect!
-
-  def add_effect(effect, replace: true)
-    if replace == false && effects.where(type: effect.type).any?
-      return effects
-    end
-
-    transaction do
-      unless effect.stackable?
-        remove_effects effect.type
-      end
-
-      effects << effect
-    end
-  end
-
-  def add_item(item)
-    transaction do
-      dropped_items = items.where(slot: item.slot).destroy_all
-      items << item
-      dropped_items
-    end
-  end
+  after_create :refresh_premium_subscriber_status!
 
   def add_xp(additional_xp)
     self.xp += additional_xp
@@ -66,6 +47,23 @@ class Character < ApplicationRecord
     !!session
   end
 
+  def effects
+    character_effects + item_effects
+  end
+
+  def equip(item)
+    transaction do
+      dropped_items = items.where(enduring: false, slot: item.slot).destroy_all
+
+      if items.where(slot: item.slot).empty?
+        items << item
+        dropped_items
+      else
+        false
+      end
+    end
+  end
+
   def find_item!
     FindNewItemJob.perform_later self
   end
@@ -82,18 +80,14 @@ class Character < ApplicationRecord
     xp_penalty.positive?
   end
 
-  def refresh_premium_subscriber_effect!
+  def refresh_premium_subscriber_status!
+    ring = PremiumSubscriberRing.new(self)
+
     if user.premium?
-      add_effect PremiumSubscriberEffect.new, replace: false
+      ring.equip
     else
-      remove_effects 'PremiumSubscriberEffect'
+      ring.unequip
     end
-
-    save!
-  end
-
-  def remove_effects(type)
-    effects.where(type: type).destroy_all
   end
 
   def to_s

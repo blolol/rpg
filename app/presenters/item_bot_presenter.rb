@@ -13,27 +13,28 @@ class ItemBotPresenter < ApplicationBotPresenter
     @item = item
   end
 
-  def to_s
-    substitutions = {
-      colored_name: colored_name,
-      level: @item.level,
-      slot: @item.slot.capitalize
-    }
-
-    '%{colored_name} (Level %{level})' % substitutions
-  end
-
-  private
-
-  def color
-    COLORS[@item.rarity]
-  end
-
   def colored_name
     if color
       Format color, @item.name
     else
       @item.name
     end
+  end
+
+  def to_s
+    substitutions = {
+      colored_name: colored_name,
+      level: @item.level,
+      rarity: @item.rarity.capitalize,
+      slot: @item.slot.capitalize
+    }
+
+    '%{colored_name} (%{slot}, %{rarity}, Level %{level})' % substitutions
+  end
+
+  private
+
+  def color
+    COLORS[@item.rarity]
   end
 end

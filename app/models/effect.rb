@@ -1,8 +1,12 @@
 class Effect < ApplicationRecord
   # Associations
-  belongs_to :character
-  has_one :session, through: :character
-  has_one :user, through: :character
+  belongs_to :effectable, polymorphic: true
+
+  # Delegates
+  delegate :session, :user, to: :character
+
+  # Validations
+  validates :effectable, presence: true
 
   def description
     raise NotImplementedError
@@ -22,5 +26,15 @@ class Effect < ApplicationRecord
 
   def xp_earned_since_last_tick(minutes_since_last_tick)
     0
+  end
+
+  private
+
+  def character
+    if effectable_type == 'Character'
+      effectable
+    else
+      effectable.character
+    end
   end
 end

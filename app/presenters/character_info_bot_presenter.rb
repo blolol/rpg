@@ -4,9 +4,9 @@ class CharacterInfoBotPresenter < ApplicationBotPresenter
   end
 
   def effect_names_and_descriptions
-    if @character.effects.exists?
+    if @character.effects.any?
       names_and_descriptions = @character.effects.map do |effect|
-        "#{effect.name} (#{effect.description})"
+        EffectBotPresenter.new(effect).name_and_description
       end.join(', ')
 
       "Effects: #{names_and_descriptions}"
@@ -20,7 +20,7 @@ class CharacterInfoBotPresenter < ApplicationBotPresenter
   end
 
   def item_names_and_descriptions
-    if @character.items.exists?
+    if @character.items.any?
       names_and_descriptions = @character.items.order(level: :desc).map do |item|
         ItemBotPresenter.new(item).to_s
       end.join(', ')
