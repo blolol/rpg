@@ -8,6 +8,10 @@ class Effect < ApplicationRecord
     raise NotImplementedError
   end
 
+  def gear_score_modifier
+    0
+  end
+
   def name
     raise NotImplementedError
   end

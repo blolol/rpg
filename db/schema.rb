@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160402053716) do
+ActiveRecord::Schema.define(version: 20160403170029) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "hstore"
 
   create_table "blolol_user_data", force: :cascade do |t|
     t.integer  "user_id",                             null: false
@@ -43,10 +44,11 @@ ActiveRecord::Schema.define(version: 20160402053716) do
   add_index "characters", ["user_id"], name: "index_characters_on_user_id", using: :btree
 
   create_table "effects", force: :cascade do |t|
-    t.integer  "character_id", null: false
-    t.string   "type",         null: false
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.integer  "character_id",              null: false
+    t.string   "type",                      null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.hstore   "metadata",     default: {}, null: false
   end
 
   add_index "effects", ["character_id"], name: "index_effects_on_character_id", using: :btree

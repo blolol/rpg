@@ -51,6 +51,10 @@ class Character < ApplicationRecord
     adjust_level!
   end
 
+  def base_gear_score
+    items.sum :level
+  end
+
   def choose!
     user.with_lock do
       user.session&.destroy
@@ -67,7 +71,7 @@ class Character < ApplicationRecord
   end
 
   def gear_score
-    items.sum :level
+    (base_gear_score + gear_score_modifier_from_effects).round
   end
 
   def last_level_at
@@ -121,6 +125,10 @@ class Character < ApplicationRecord
 
   def base_xp_required_for_next_level
     xp_required_for_level level.next
+  end
+
+  def gear_score_modifier_from_effects
+    effects.sum &:gear_score_modifier
   end
 
   def must_have_max_one_item_per_slot
