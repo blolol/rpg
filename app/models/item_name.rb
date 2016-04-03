@@ -1,14 +1,4 @@
 class ItemName
-  # Constants
-  SLOT_MATERIALS = {
-    'chest' => 'armor',
-    'feet' => 'armor',
-    'head' => 'armor',
-    'legs' => 'armor',
-    'shoulder' => 'armor',
-    'weapon' => 'weapon'
-  }
-
   def self.for(character, slot, rarity)
     case slot
     when 'chest', 'feet', 'head', 'legs', 'shoulder'

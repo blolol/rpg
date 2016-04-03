@@ -13,4 +13,8 @@ class Item < ApplicationRecord
   validates :rarity, presence: true, inclusion: { in: RARITIES }
   validates :slot, presence: true, inclusion: { in: Character::SLOTS },
     uniqueness: { scope: :character }
+
+  def self.drop(character)
+    ItemDrop.new(character).item
+  end
 end

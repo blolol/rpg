@@ -3,7 +3,7 @@ class FindNewItemJob < ApplicationJob
 
   def perform(character)
     @character = character
-    @found_item = ItemDrop.new(@character).item
+    @found_item = Item.drop(@character)
 
     if found_item_is_an_upgrade?
       dropped_items = @character.add_item(@found_item)
