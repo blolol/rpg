@@ -1,0 +1,106 @@
+en:
+  items:
+    finger:
+      materials:
+        poor:
+          - Copper
+          - Metal
+          - Silver
+          - Stonewrought
+          - Wooden
+        common:
+          - Copper
+          - Metal
+          - Silver
+          - Stonewrought
+        uncommon:
+          - Copper
+          - Gold
+          - Pearl
+          - Silver
+          - Stonewrought
+          - Tigerseye
+        rare:
+          - Diamond
+          - Ebonlocke
+          - Ebony
+          - Eternium
+          - Ghost Hair
+          - Gold
+          - Pearl
+          - Silver
+          - Tigerseye
+          - Viridian
+        epic:
+          - Black Diamond
+          - Demonium
+          - Diamond
+          - Ebonlocke
+          - Eternium
+          - Gold
+          - Mooncloud
+          - Moongold
+          - Pearl
+          - Silver
+          - Tigerseye
+          - Viridian
+        legendary:
+          - Black Diamond
+          - Demonium
+          - Diamond
+          - Eternium
+          - Gold
+          - Mooncloud
+          - Pearl
+          - Silver
+          - Volcanic Rock
+      types:
+        - Band
+        - Ring
+        - Signet
+      qualities:
+        poor:
+          - Cheap
+          - Dull
+          - Pitted
+          - Plain
+          - Tarnished
+        common:
+          - Braided
+          - Cheap
+          - Gleaming
+          - Heavy
+          - Shiny
+          - Woven
+        uncommon:
+          - Braided
+          - Elegant
+          - Fine
+          - Gleaming
+          - Heavy
+          - Inlaid
+          - Shining
+          - Shiny
+          - Woven
+        rare:
+          - Braided
+          - Elegant
+          - Fine
+          - Gleaming
+          - Inlaid
+          - Flawless
+          - Shining
+          - Shiny
+          - Woven
+        epic:
+          - Braided
+          - Elegant
+          - Gleaming
+          - Inlaid
+          - Flawless
+          - Woven
+        legendary:
+          - Braided
+          - Flawless
+          - Inlaid
+          - Woven

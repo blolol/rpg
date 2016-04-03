@@ -3,6 +3,8 @@ class ItemName
     case slot
     when 'chest', 'feet', 'head', 'legs', 'shoulder'
       ArmorItemName.new character, slot, rarity
+    when 'finger'
+      FingerItemName.new character, slot, rarity
     when 'weapon'
       WeaponItemName.new character, slot, rarity
     end
