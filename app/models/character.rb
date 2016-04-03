@@ -1,6 +1,5 @@
 class Character < ApplicationRecord
   # Constants
-  FIND_ITEM_PROBABILITY = 2.0 / 1.day
   SLOTS = %w(chest feet head legs shoulder weapon).freeze
 
   # Associations
@@ -64,9 +63,7 @@ class Character < ApplicationRecord
   end
 
   def find_item!
-    if rand < FIND_ITEM_PROBABILITY
-      FindNewItemJob.perform_later self
-    end
+    FindNewItemJob.perform_later self
   end
 
   def gear_score

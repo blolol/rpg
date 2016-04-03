@@ -15,7 +15,7 @@ class Session < ApplicationRecord
       touch
     end
 
-    character.find_item!
+    possibly_find_random_item!
   end
 
   private
@@ -38,6 +38,12 @@ class Session < ApplicationRecord
 
   def minutes_since_last_tick
     (Time.current - updated_at) / 60
+  end
+
+  def possibly_find_random_item!
+    if rand < Settings.game.find_item_probability_per_tick
+      character.find_item!
+    end
   end
 
   def xp_earned_since_last_tick
