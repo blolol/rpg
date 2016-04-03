@@ -1,0 +1,98 @@
+en:
+  items:
+    possessives:
+      poor:
+        - Brawler's
+        - Elder's
+        - Farmer's
+        - Footpad's
+        - Granny's
+        - Grunt's
+        - Initiate's
+        - "Initiate %{role}'s"
+        - Neophyte's
+        - Pilgrim's
+        - Thug's
+        - Trainee's
+      common:
+        - Abbey Defender's
+        - Acolyte's
+        - Apprentice's
+        - "Apprentice %{role}'s"
+        - Brawler's
+        - Cadet's
+        - Defender's
+        - Elder's
+        - Farmer's
+        - Footpad's
+        - Granny's
+        - Novice's
+        - "Novice %{role}'s"
+        - Miner's
+        - Peacebringer's
+        - Ranger's
+        - Recruit's
+        - Scout's
+        - Seafarer's
+        - Soldier's
+        - Trainee's
+        - Trapper's
+        - Warder's
+      uncommon:
+        - Archer's
+        - Defender's
+        - Elder's
+        - Farstrider's
+        - Gladiator's
+        - Guard's
+        - Guardsman's
+        - Mountaineer's
+        - Peacebringer's
+        - Ranger's
+        - Recruit's
+        - "%{role} Recruit's"
+        - Rugged Trapper's
+        - Sea Stalker's
+        - Soldier's
+        - Squire's
+      rare:
+        - "%{role}'s"
+        - Corsair's
+        - Defender's
+        - Gladiator's
+        - Hunter's
+        - Knight's
+        - Poisoner's
+        - Ranger's
+        - Soldier's
+        - Soul Priest's
+        - Vanguard Soldier's
+        - Warrior's
+        - Witch Doctor's
+      epic:
+        - Beauty's
+        - Bloodthirsty Gladiator's
+        - Champion's
+        - "Champion %{role}'s"
+        - Poisoner's
+        - Primal Gladiator's
+        - Tournament Gladiator's
+        - Veteran Hunter's
+        - Veteran Ranger's
+        - Veteran Soldier's
+        - Veteran Warrior's
+        - Victor's
+        - "Victorious %{role}'s"
+        - Vindictive Gladiator's
+        - Warmongering Gladiator's
+        - Wild Gladiator's
+        - Windspeaker's
+        - Witch Doctor's
+      legendary:
+        - Doolan's
+        - "Legendary %{role}'s"
+        - King's
+        - "King %{name}'s"
+        - Queen's
+        - "Queen %{name}'s"
+        - Whaleman's

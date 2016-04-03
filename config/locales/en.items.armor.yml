@@ -1,0 +1,127 @@
+en:
+  items:
+    armor:
+      poor:
+        - Barkmail
+        - Chain
+        - Chainmail
+        - Cloth
+        - Copper
+        - Cracked Leather
+        - Gronncloth
+        - Leather
+        - Mail
+        - Plate
+      common:
+        - Black Leather
+        - Chain
+        - Chainmail
+        - Cloth
+        - Cured Leather
+        - Dark Iron
+        - Iron
+        - Leather
+        - Green Chain
+        - Mail
+        - Plate
+      uncommon:
+        - Bear Hide
+        - Bitestone
+        - Burnished
+        - Chain
+        - Chainmail
+        - Coralplate
+        - Dark Iron
+        - Green Leather
+        - Hagfeather
+        - Jasperlode
+        - Leather
+        - Mail
+        - Manaburst
+        - Mardum Chain
+        - Plate
+        - Ringmail
+        - Rockbound
+        - Scale
+        - Silk
+        - Stitched
+        - Stormforged
+        - Vilescale
+        - Wrackscale
+      rare:
+        - Abalone Plate
+        - Black Bear Hide
+        - Chain
+        - Chainmail
+        - Charscale
+        - Dragonscale
+        - Dreadplate
+        - Ebonflame
+        - Emberfire
+        - Emberspark
+        - Fireweave
+        - Hieroglyphic
+        - Ironpelt
+        - Kodohide
+        - Mail
+        - Mooncloth
+        - Plate
+        - Pyrium
+        - Redsteel
+        - Sandmail
+        - Satin
+        - Scale
+        - Smoldercloth
+        - Sparkmail
+        - Stormforged
+        - Wyrmhide
+      epic:
+        - Chain
+        - Chainmail
+        - Chromis
+        - Copperskin
+        - Demongaze
+        - Dragonhide
+        - Dragonplate
+        - Dragonscale
+        - Dreadplate
+        - Ebonflame
+        - Felfume
+        - Felskin
+        - Felweave
+        - Gravenscale
+        - Grizzly Bear Hide
+        - Ironpelt
+        - Ironskin
+        - Leather
+        - Linked
+        - Mail
+        - Phantom
+        - Plate
+        - Rancorsteel
+        - Ringmail
+        - Sandmail
+        - Satin
+        - Scaled
+        - Silk
+        - Wentletrap
+        - Wolfhide
+      legendary:
+        - Bladebreaker
+        - Chain
+        - Chainmail
+        - Gleaming Fire
+        - Golden
+        - Icechain
+        - Icemail
+        - Iceplate
+        - Lightning
+        - Mail
+        - Molten Chain
+        - Rockfall
+        - Spitfire
+        - Stonefang
+        - Terrormail
+        - Terrorplate
+        - Terrorscale
+        - White Tiger

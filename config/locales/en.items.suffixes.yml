@@ -1,0 +1,92 @@
+en:
+  items:
+    suffixes:
+      poor: []
+      common: []
+      uncommon:
+        - Agility
+        - Arcane Resistance
+        - Arcane Wrath
+        - the Bandit
+        - Battle
+        - the Bear
+        - Blocking
+        - the Boar
+        - Concentration
+        - the Eagle
+        - the Elder
+        - Eminent Domain
+        - the Falcon
+        - Fiery Wrath
+        - Fire Resistance
+        - Frost Resistance
+        - Frozen Wrath
+        - the Gorilla
+        - the Grove
+        - Healing
+        - the Hierophant
+        - the Hunt
+        - Intellect
+        - the Invoker
+        - the Mind
+        - the Monkey
+        - Nature Resistance
+        - Nature's Wrath
+        - the Prophet
+        - Regeneration
+        - the Shadow
+        - Shadow Resistance
+        - Shadow Wrath
+        - the Soldier
+        - the Sorcerer
+        - Spirit
+        - Stamina
+        - Strength
+        - the Sun
+        - the Tiger
+        - the Whale
+        - the Wild
+        - the Wolf
+      rare:
+        - the Ancestor
+        - Arcane Protection
+        - the Beast
+        - the Champion
+        - the Crusade
+        - Dancing Waves
+        - Fire Protection
+        - Forgetfulness
+        - Frost Protection
+        - Heartwrenching Slaughter
+        - the Knight
+        - Nature Protection
+        - Necromancy
+        - the Nightmare
+        - Raging Fury
+        - Regeneration
+        - Shadow Protection
+        - Sorcery
+        - the Steadfast
+        - the Stilled Heart
+        - Striking
+        - the Whale
+      epic:
+        - "%{role}'s Wrath"
+        - the Champion
+        - Forceful Fury
+        - the Lost Catacomb
+        - Screaming Secrets
+        - the Siegemaker
+        - the Somber Gaze
+        - Unending Roars
+      legendary:
+        - "%{name}'s Wrath"
+        - Biablo's Wrath
+        - Destiny
+        - Doolan's Wrath
+        - the All-Consuming Maw
+        - tidusjeff's Wrath
+        - Torn Nightmares
+        - Total Annihilation
+        - the Unknown Fear
+        - Whaleman's Wrath
