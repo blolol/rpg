@@ -14,6 +14,8 @@ class Session < ApplicationRecord
       character.save!
       touch
     end
+
+    character.find_item!
   end
 
   private

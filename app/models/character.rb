@@ -1,6 +1,7 @@
 class Character < ApplicationRecord
   # Constants
-  SLOTS = %w(chest feet head legs shoulder weapon)
+  FIND_ITEM_PROBABILITY = 2.0 / 1.day
+  SLOTS = %w(chest feet head legs shoulder weapon).freeze
 
   # Associations
   has_many :effects, dependent: :destroy
@@ -40,8 +41,9 @@ class Character < ApplicationRecord
 
   def add_item(item)
     transaction do
-      items.where(slot: item.slot).destroy_all
+      dropped_items = items.where(slot: item.slot).destroy_all
       items << item
+      dropped_items
     end
   end
 
@@ -59,6 +61,12 @@ class Character < ApplicationRecord
 
   def current?
     !!session
+  end
+
+  def find_item!
+    if rand < FIND_ITEM_PROBABILITY
+      FindNewItemJob.perform_later self
+    end
   end
 
   def gear_score
@@ -110,8 +118,8 @@ class Character < ApplicationRecord
   end
 
   def announce_level_up_in_chat
-    LevelUpAnnouncementJob.perform_later self, level, xp_required_for_next_level,
-      last_level_at_was.iso8601
+    last_level_at = (last_level_at_was || created_at).iso8601
+    LevelUpAnnouncementJob.perform_later self, level, xp_required_for_next_level, last_level_at
   end
 
   def base_xp_required_for_next_level

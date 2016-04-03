@@ -9,19 +9,13 @@ class LevelUpAnnouncementJob < ApplicationJob
     @xp_required_for_next_level = xp_required_for_next_level
     @last_level_at = last_level_at
 
-    each_irc_channel do |channel|
-      BlololApiClient.chat_event from: Settings.irc.nickname, to: channel, text: message
-    end
+    ChatAnnouncement.new(message).announce
   end
 
   private
 
-  def each_irc_channel(&block)
-    Settings.irc.channels.split(',').each &block
-  end
-
   def message
-    @message ||= LevelUpAnnouncementPresenter.new(character: @character, level: @level,
+    LevelUpAnnouncementPresenter.new(character: @character, level: @level,
       xp_required_for_next_level: @xp_required_for_next_level,
       last_level_at: @last_level_at).message
   end

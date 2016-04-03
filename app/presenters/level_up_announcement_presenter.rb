@@ -12,16 +12,12 @@ class LevelUpAnnouncementPresenter < ApplicationBotPresenter
   end
 
   def message
-    "#{dumb_onomatopoeia} After #{duration_since_last_level}, #{owner.username}'s character " \
+    "#{dumb_onomatopoeia} After #{duration_since_last_level}, #{owner_possessive} " \
       "#{character_name_and_class} has reached #{new_level} Only #{@xp_required_for_next_level} " \
       "XP until level #{next_level}."
   end
 
   private
-
-  def character_name_and_class
-    Format :bold, "#{@character.name} the #{@character.role}"
-  end
 
   def dumb_onomatopoeia
     DUMB_ONOMATOPOEIA.sample
@@ -37,9 +33,5 @@ class LevelUpAnnouncementPresenter < ApplicationBotPresenter
 
   def next_level
     @level.next
-  end
-
-  def owner
-    @owner ||= @character.user.blolol_user_data
   end
 end

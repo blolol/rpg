@@ -2,7 +2,7 @@ class ItemBotPresenter < ApplicationBotPresenter
   # Constants
   COLORS = {
     'poor' => :grey,
-    'common' => :black,
+    'common' => nil,
     'uncommon' => :green,
     'rare' => :royal,
     'epic' => :purple,
@@ -30,6 +30,10 @@ class ItemBotPresenter < ApplicationBotPresenter
   end
 
   def colored_name
-    Format color, @item.name
+    if color
+      Format color, @item.name
+    else
+      @item.name
+    end
   end
 end
