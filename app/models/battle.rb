@@ -17,18 +17,12 @@ class Battle
     challenger == winner
   end
 
-  def difficulty
-    @difficulty ||= level_difference + gear_score_difference
+  def challenge_difficulty
+    @challenge_difficulty ||= challenge_level_difference + challenge_gear_score_difference
   end
 
-  def fairness
-    @fairness ||= if difficulty.abs <= 10
-      :fair
-    elsif difficulty.negative?
-      :courageous
-    else
-      :cowardly
-    end
+  def challenge_fairness
+    @challenge_fairness ||= determine_fairness(challenge_difficulty)
   end
 
   def fight!
@@ -45,6 +39,14 @@ class Battle
     !!winner
   end
 
+  def outcome_difficulty
+    @outcome_difficulty ||= outcome_level_difference + outcome_gear_score_difference
+  end
+
+  def outcome_fairness
+    @outcome_fairness ||= determine_fairness(outcome_difficulty)
+  end
+
   def rewards
     @rewards ||= BattleRewards.new(self).rewards
   end
@@ -55,6 +57,24 @@ class Battle
     rewards.each &:apply!
   end
 
+  def challenge_gear_score_difference
+    challenger.gear_score - opponent.gear_score
+  end
+
+  def challenge_level_difference
+    challenger.level - opponent.level
+  end
+
+  def determine_fairness(difficulty)
+    if difficulty.abs <= 10
+      :fair
+    elsif difficulty.negative?
+      :courageous
+    else
+      :cowardly
+    end
+  end
+
   def find_challenger
     Character.active.order('RANDOM()').first
   end
@@ -63,11 +83,11 @@ class Battle
     Character.active.where.not(id: challenger.id).order('RANDOM()').first
   end
 
-  def gear_score_difference
-    challenger.gear_score - opponent.gear_score
+  def outcome_gear_score_difference
+    winner.gear_score - loser.gear_score
   end
 
-  def level_difference
-    challenger.level - opponent.level
+  def outcome_level_difference
+    winner.level - loser.level
   end
 end

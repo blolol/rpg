@@ -1,6 +1,6 @@
 class BattleRewards
   # Constants
-  REWARD_TYPES = %w(XpBattleReward).freeze
+  REWARD_TYPES = %w(ItemBattleReward XpBattleReward).freeze
 
   def initialize(battle)
     @battle = battle

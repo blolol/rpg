@@ -28,14 +28,14 @@ class BattleBotPresenter < ApplicationBotPresenter
     owner_possessive challenger
   end
 
-  def challenger_rewards
-    @challenger_rewards ||= rewards_grouped_by_actor[challenger]
+  def challenger_rewards_descriptions
+    @challenger_rewards ||= rewards_grouped_by_actor[challenger]&.map(&:description)&.compact
   end
 
   def challenger_rewards_description_with_punctuation
-    if challenger_rewards&.any?
-      list_of_rewards = challenger_rewards.map(&:description).to_sentence
-      "#{challenger.name} was #{list_of_rewards}."
+    if challenger_rewards_descriptions&.any?
+      list_of_rewards = challenger_rewards_descriptions.to_sentence
+      "#{challenger.name} #{list_of_rewards}."
     end
   end
 
@@ -47,14 +47,14 @@ class BattleBotPresenter < ApplicationBotPresenter
     owner_possessive opponent
   end
 
-  def opponent_rewards
-    @opponent_rewards ||= rewards_grouped_by_actor[opponent]
+  def opponent_rewards_descriptions
+    @opponent_rewards ||= rewards_grouped_by_actor[opponent]&.map(&:description)&.compact
   end
 
   def opponent_rewards_description_with_punctuation
-    if opponent_rewards&.any?
-      list_of_rewards = opponent_rewards.map(&:description).to_sentence
-      "#{opponent.name} was #{list_of_rewards}."
+    if opponent_rewards_descriptions&.any?
+      list_of_rewards = opponent_rewards_descriptions.to_sentence
+      "#{opponent.name} #{list_of_rewards}."
     end
   end
 
