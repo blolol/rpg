@@ -71,10 +71,6 @@ class Character < ApplicationRecord
     end
   end
 
-  def find_item!
-    FindNewItemJob.perform_later self
-  end
-
   def gear_score
     (base_gear_score + gear_score_modifier_from_effects).round
   end

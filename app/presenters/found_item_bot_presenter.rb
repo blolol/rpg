@@ -1,4 +1,4 @@
-class FindNewItemPresenter < ApplicationBotPresenter
+class FoundItemBotPresenter < ApplicationBotPresenter
   def initialize(character, found_item, dropped_items)
     @character = character
     @found_item = found_item
