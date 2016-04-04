@@ -10,7 +10,7 @@ class FindItemJob < ApplicationJob
 
       if dropped_items
         message = FoundItemBotPresenter.new(@character, @found_item, dropped_items).message
-        ChatAnnouncement.new(message).announce
+        BotAnnouncement.new(message).announce
       end
     end
   end

@@ -8,7 +8,7 @@ class BattleJob < ApplicationJob
       battle.fight!
 
       message = BattleBotPresenter.new(battle).message
-      ChatAnnouncement.new(message).announce
+      BotAnnouncement.new(message).announce
     end
   end
 end

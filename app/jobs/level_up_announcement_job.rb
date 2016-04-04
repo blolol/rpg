@@ -9,7 +9,7 @@ class LevelUpAnnouncementJob < ApplicationJob
     @total_xp_required_for_next_level = total_xp_required_for_next_level
     @last_level_at = last_level_at
 
-    ChatAnnouncement.new(message).announce
+    BotAnnouncement.new(message).announce
   end
 
   private

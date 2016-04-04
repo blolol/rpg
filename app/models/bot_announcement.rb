@@ -1,4 +1,4 @@
-class ChatAnnouncement
+class BotAnnouncement
   def initialize(message, from: Settings.irc.nickname)
     @from = from
     @message = message
