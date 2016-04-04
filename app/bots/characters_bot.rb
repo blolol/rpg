@@ -75,7 +75,7 @@ class CharactersBot
     character = find_character!(old_name)
 
     old_name = character.name
-    additional_xp_penalty = (character.xp_required_for_next_level * 0.1).round
+    additional_xp_penalty = (character.total_xp_required_for_next_level * 0.1).round
 
     character.name = new_name
     character.xp_penalty += additional_xp_penalty

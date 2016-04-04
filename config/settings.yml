@@ -4,6 +4,7 @@ defaults: &defaults
     api_secret: "<%= ENV['BLOLOL_API_SECRET'] %>"
   game:
     base_xp_per_minute: <%= ENV.fetch('BASE_XP_PER_MIN', 4).to_i %>
+    battle_probability_per_tick: <%= ENV.fetch('BATTLE_PROBABILITY', 1.0 / 1.hour).to_f %>
     find_item_probability_per_tick: <%= ENV.fetch('FIND_ITEM_PROBABILITY', 2.0 / 1.day).to_f %>
     premium_xp_per_minute: <%= ENV.fetch('PREMIUM_XP_PER_MIN', 1).to_i %>
   irc:

@@ -3,10 +3,10 @@ class LevelUpAnnouncementJob < ApplicationJob
 
   queue_as :default
 
-  def perform(character, level, xp_required_for_next_level, last_level_at)
+  def perform(character, level, total_xp_required_for_next_level, last_level_at)
     @character = character
     @level = level
-    @xp_required_for_next_level = xp_required_for_next_level
+    @total_xp_required_for_next_level = total_xp_required_for_next_level
     @last_level_at = last_level_at
 
     ChatAnnouncement.new(message).announce
@@ -16,7 +16,7 @@ class LevelUpAnnouncementJob < ApplicationJob
 
   def message
     LevelUpAnnouncementPresenter.new(character: @character, level: @level,
-      xp_required_for_next_level: @xp_required_for_next_level,
+      total_xp_required_for_next_level: @total_xp_required_for_next_level,
       last_level_at: @last_level_at).message
   end
 end

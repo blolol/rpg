@@ -11,6 +11,9 @@ class Character < ApplicationRecord
   has_one :session, dependent: :destroy
   belongs_to :user
 
+  # Scopes
+  scope :active, -> { joins(:session) }
+
   # Validations
   validates :level, presence: true,
     numericality: { greater_than_or_equal_to: 1, only_integer: true }
@@ -26,6 +29,10 @@ class Character < ApplicationRecord
   define_model_callbacks :level_up
   after_level_up :announce_level_up_in_chat
   after_create :refresh_premium_subscriber_status!
+
+  def active?
+    session.present?
+  end
 
   def add_xp(additional_xp)
     self.xp += additional_xp
@@ -91,20 +98,24 @@ class Character < ApplicationRecord
   end
 
   def to_s
-    "#{name} the Level #{level} #{role} (#{xp}/#{xp_required_for_next_level} XP, " \
+    "#{name} the Level #{level} #{role} (#{xp}/#{total_xp_required_for_next_level} XP, " \
       "#{gear_score} GS)"
   end
 
-  def xp_required_for_next_level
+  def total_xp_required_for_next_level
     base_xp_required_for_next_level + xp_penalty
+  end
+
+  def xp_required_for_next_level
+    total_xp_required_for_next_level - xp
   end
 
   private
 
   def adjust_level!
-    while xp >= xp_required_for_next_level do
+    while xp >= total_xp_required_for_next_level do
       run_callbacks :level_up do
-        self.xp -= xp_required_for_next_level
+        self.xp -= total_xp_required_for_next_level
         self.level += 1
         self.xp_penalty = 0
         self.last_level_at = Time.current
@@ -114,11 +125,16 @@ class Character < ApplicationRecord
 
   def announce_level_up_in_chat
     last_level_at = (last_level_at_was || created_at).iso8601
-    LevelUpAnnouncementJob.perform_later self, level, xp_required_for_next_level, last_level_at
+    LevelUpAnnouncementJob.perform_later self, level, total_xp_required_for_next_level,
+      last_level_at
+  end
+
+  def base_xp_required_for_level(level)
+    (600 * (level ** 1.76)).round
   end
 
   def base_xp_required_for_next_level
-    xp_required_for_level level.next
+    base_xp_required_for_level level.next
   end
 
   def gear_score_modifier_from_effects
@@ -131,9 +147,5 @@ class Character < ApplicationRecord
         errors.add :items, "can't have more than one item in the #{slot} slot"
       end
     end
-  end
-
-  def xp_required_for_level(level)
-    (600 * (level ** 1.76)).round
   end
 end
