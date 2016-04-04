@@ -1,4 +1,6 @@
 class CharacterInfoBotPresenter < ApplicationBotPresenter
+  include ActionView::Helpers::DateHelper
+
   def initialize(character)
     @character = character
   end
@@ -15,8 +17,9 @@ class CharacterInfoBotPresenter < ApplicationBotPresenter
     end
   end
 
-  def gear_score
-    "Gear Score: #{@character.gear_score}"
+  def leveling_speed
+    leveling_speeds = [time_since_last_level, estimated_time_to_next_level].compact.join(', ')
+    "Leveling: #{leveling_speeds}"
   end
 
   def item_names_and_descriptions
@@ -40,5 +43,18 @@ class CharacterInfoBotPresenter < ApplicationBotPresenter
       substitutions = { next_level: @character.level.next, penalty: @character.xp_penalty }
       "Penalty: %{penalty} additional XP required to reach level %{next_level}" % substitutions
     end
+  end
+
+  private
+
+  def estimated_time_to_next_level
+    if @character.active?
+      next_level_at = Time.current + @character.estimated_seconds_to_next_level
+      "#{time_ago_in_words(next_level_at)} until level #{@character.level.next}"
+    end
+  end
+
+  def time_since_last_level
+    "#{time_ago_in_words(@character.last_level_at).capitalize} since last level"
   end
 end

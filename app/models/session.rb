@@ -8,12 +8,20 @@ class Session < ApplicationRecord
   validates :user, presence: true, uniqueness: true
   validate :character_must_belong_to_user
 
+  def minutes_since_last_tick
+    (Time.current - updated_at) / 60
+  end
+
   def tick!
     character.with_lock do
       character.add_xp xp_earned_since_last_tick
       character.save!
       touch
     end
+  end
+
+  def xp_earned_since_last_tick
+    base_xp_earned_since_last_tick + effect_xp_earned_since_last_tick
   end
 
   private
@@ -32,13 +40,5 @@ class Session < ApplicationRecord
     character.effects.sum do |effect|
       effect.xp_earned_since_last_tick minutes_since_last_tick
     end
-  end
-
-  def minutes_since_last_tick
-    (Time.current - updated_at) / 60
-  end
-
-  def xp_earned_since_last_tick
-    base_xp_earned_since_last_tick + effect_xp_earned_since_last_tick
   end
 end

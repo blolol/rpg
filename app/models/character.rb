@@ -71,6 +71,13 @@ class Character < ApplicationRecord
     end
   end
 
+  def estimated_seconds_to_next_level
+    if session
+      xp_per_second = (session.xp_earned_since_last_tick / session.minutes_since_last_tick) / 60.0
+      xp_required_for_next_level / xp_per_second
+    end
+  end
+
   def gear_score
     (base_gear_score + gear_score_modifier_from_effects).round
   end
