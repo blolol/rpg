@@ -1,18 +1,19 @@
 class FoundItemBotPresenter < ApplicationBotPresenter
-  def initialize(character, found_item, dropped_items)
+  def initialize(character, found_item, dropped_items, xp_reward)
     @character = character
     @found_item = found_item
     @dropped_items = dropped_items
+    @xp_reward = xp_reward
   end
 
   def message
     message = "#{owner_possessive} #{character_description} found #{found_item_name_and_level}"
 
     if @dropped_items.any?
-      message << " and dropped #{list_of_dropped_items}"
+      message << ", dropped #{list_of_dropped_items},"
     end
 
-    message << '!'
+    message << " and earned #{@xp_reward} XP!"
   end
 
   private

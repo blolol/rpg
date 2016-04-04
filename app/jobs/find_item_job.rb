@@ -3,13 +3,15 @@ class FindItemJob < ApplicationJob
 
   def perform(character = nil)
     @character = character || find_character
-    @found_item = Item.drop(@character)
 
-    if found_item_is_an_upgrade?
-      dropped_items = @character.equip(@found_item)
+    if item_is_an_upgrade?
+      dropped_items = @character.equip(item)
 
       if dropped_items
-        message = FoundItemBotPresenter.new(@character, @found_item, dropped_items).message
+        @character.add_xp xp_reward
+        @character.save!
+
+        message = FoundItemBotPresenter.new(@character, item, dropped_items, xp_reward).message
         BotAnnouncement.new(message).announce
       end
     end
@@ -21,7 +23,15 @@ class FindItemJob < ApplicationJob
     Character.active.order('RANDOM()').first
   end
 
-  def found_item_is_an_upgrade?
-    @character.items.where('slot = ? AND level >= ?', @found_item.slot, @found_item.level).empty?
+  def item_is_an_upgrade?
+    @character.items.where('slot = ? AND level >= ?', item.slot, item.level).empty?
+  end
+
+  def item
+    @item ||= Item.drop(@character)
+  end
+
+  def xp_reward
+    @xp_reward ||= ((rand(5..12) / 100.0) * @character.total_xp_required_for_next_level).round
   end
 end
