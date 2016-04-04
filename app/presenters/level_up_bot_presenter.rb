@@ -1,4 +1,4 @@
-class LevelUpAnnouncementPresenter < ApplicationBotPresenter
+class LevelUpBotPresenter < ApplicationBotPresenter
   include ActionView::Helpers::DateHelper
 
   # Constants

@@ -15,7 +15,7 @@ class LevelUpAnnouncementJob < ApplicationJob
   private
 
   def message
-    LevelUpAnnouncementPresenter.new(character: @character, level: @level,
+    LevelUpBotPresenter.new(character: @character, level: @level,
       total_xp_required_for_next_level: @total_xp_required_for_next_level,
       last_level_at: @last_level_at).message
   end
