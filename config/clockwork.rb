@@ -2,7 +2,7 @@ require 'clockwork'
 require_relative 'environment'
 
 module Clockwork
-  every 1.minute, 'game.tick' do
+  every Settings.game.seconds_between_ticks, 'game.tick' do
     GameTickJob.perform_later
   end
 

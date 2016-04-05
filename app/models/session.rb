@@ -27,7 +27,7 @@ class Session < ApplicationRecord
   private
 
   def base_xp_earned_since_last_tick
-    (minutes_since_last_tick * Settings.game.base_xp_per_minute).round
+    (minutes_since_last_tick * Settings.game.base_xp_per_tick).round
   end
 
   def character_must_belong_to_user
