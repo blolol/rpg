@@ -1,4 +1,4 @@
-class CharacterListBotPresenter < ApplicationBotPresenter
+class CharactersListBotPresenter < ApplicationBotPresenter
   def initialize(nick, characters)
     @nick = nick
     @characters = characters

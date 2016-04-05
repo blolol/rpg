@@ -7,6 +7,7 @@ class CharactersBot
   command 'characters:create' => :create, required: 2
   command 'characters:delete' => :delete, required: 1
   command 'characters:info' => :info
+  command 'characters:online' => :online
   command 'characters:rename' => :rename, required: 2
 
   def choose(message, character_name)
@@ -59,7 +60,7 @@ class CharactersBot
     characters = current_user.characters.order(level: :desc, xp: :desc, name: :asc)
 
     if characters.any?
-      characters = CharacterListBotPresenter.new(message.user.nick, characters)
+      characters = CharactersListBotPresenter.new(message.user.nick, characters)
 
       message.reply characters.header
 
@@ -68,6 +69,22 @@ class CharactersBot
       end
     else
       message.reply 'You have no characters :(', prefix: true
+    end
+  end
+
+  def online(message)
+    characters = Character.active.order(level: :desc, xp: :desc, name: :asc)
+
+    if characters.any?
+      characters = OnlineCharactersListBotPresenter.new(characters)
+
+      message.reply characters.header
+
+      characters.each do |character|
+        message.reply character.index_and_description
+      end
+    else
+      message.reply 'Nobody is currently playing :(', prefix: true
     end
   end
 

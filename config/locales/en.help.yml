@@ -16,6 +16,9 @@ en:
       characters:info: |
         Usage: characters:info <character name>
         Display detailed information about <character name>, or your current character.
+      characters:online: |
+        Usage: characters:online
+        List all online characters.
       characters:rename: |
         Usage: characters:rename <old character name> <new character name>
         Rename <old character name> to <new character name>.
@@ -28,4 +31,5 @@ en:
           characters:create
           characters:delete
           characters:info
+          characters:online
           characters:rename
