@@ -8,10 +8,7 @@ class BattleBotPresenter < ApplicationBotPresenter
       raise 'Battle must already have been fought'
     end
 
-    "#{challenger_owner_possessive} #{challenger_description} challenged " \
-      "#{opponent_owner_possessive} #{opponent_description} to battle and, with a roll of " \
-      "#{challenger_roll.score} to #{opponent.name}'s #{opponent_roll.score}, " \
-      "#{won_or_lost_with_punctuation} #{rewards_description_with_punctuation}"
+    "#{battle_description} #{rewards_description}"
   end
 
   private
@@ -19,6 +16,13 @@ class BattleBotPresenter < ApplicationBotPresenter
   # Delegates
   delegate :challenger, :challenger_roll, :challenger_won?, :opponent, :opponent_roll,
     :rewards, to: :@battle
+
+  def battle_description
+    "#{challenger_owner_possessive} #{challenger_description} challenged " \
+      "#{opponent_owner_possessive} #{opponent_description} to battle and, with a roll of " \
+      "#{challenger_roll.score} to #{opponent.name}'s #{opponent_roll.score}, " \
+      "#{won_or_lost_with_punctuation}"
+  end
 
   def challenger_description
     character_description challenger
@@ -58,7 +62,7 @@ class BattleBotPresenter < ApplicationBotPresenter
     end
   end
 
-  def rewards_description_with_punctuation
+  def rewards_description
     [challenger_rewards_description_with_punctuation,
       opponent_rewards_description_with_punctuation].compact.join ' '
   end

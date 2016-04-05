@@ -79,7 +79,7 @@ class Character < ApplicationRecord
   end
 
   def gear_score
-    (base_gear_score + gear_score_modifier_from_effects).round
+    [(base_gear_score + gear_score_modifier_from_effects).round, 0].max
   end
 
   def last_level_at

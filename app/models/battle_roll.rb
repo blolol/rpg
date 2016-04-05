@@ -9,10 +9,16 @@ class BattleRoll
   end
 
   def score
-    @score ||= rand(@character.gear_score)
+    @score ||= rand(gear_score_with_minimum)
   end
 
   def <=>(other)
     score <=> other.score
+  end
+
+  private
+
+  def gear_score_with_minimum
+    [@character.gear_score, 1].max
   end
 end

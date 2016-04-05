@@ -10,7 +10,7 @@ class CharactersBot
   command 'characters:rename' => :rename, required: 2
 
   def choose(message, character_name)
-    character = find_character!(character_name)
+    character = find_my_character!(character_name)
 
     if character != current_user.current_character
       character.choose!
@@ -34,7 +34,7 @@ class CharactersBot
   end
 
   def delete(message, character_name)
-    character = find_character!(character_name)
+    character = find_my_character!(character_name)
     character.destroy
     message.reply "#{character} has been deleted forever :(", prefix: true
   end
@@ -72,7 +72,7 @@ class CharactersBot
   end
 
   def rename(message, old_name, new_name)
-    character = find_character!(old_name)
+    character = find_my_character!(old_name)
 
     old_name = character.name
     additional_xp_penalty = (character.total_xp_required_for_next_level * 0.1).round
@@ -92,6 +92,17 @@ class CharactersBot
   private
 
   def find_character!(character_name)
+    character = Character.find_by('name ILIKE ?', character_name)
+
+    if character
+      character
+    else
+      message.reply "There's no character named #{character_name} :(", prefix: true
+      throw :halt
+    end
+  end
+
+  def find_my_character!(character_name)
     character = current_user.find_character(character_name)
 
     if character
