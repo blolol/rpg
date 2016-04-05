@@ -35,7 +35,9 @@ class CharacterInfoBotPresenter < ApplicationBotPresenter
   end
 
   def name_and_level
-    Format :bold, :underline, @character.to_s
+    substitutions = { name_and_level: Format(:bold, :underline, @character.to_s),
+      owner: @character.user.blolol_user_data.username }
+    '%{name_and_level} played by %{owner}' % substitutions
   end
 
   def penalty_description
