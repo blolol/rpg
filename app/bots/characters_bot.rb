@@ -2,13 +2,15 @@ class CharactersBot
   include ApplicationBot
 
   # Commands
-  command 'characters' => :list
-  command 'characters:choose' => :choose, required: 1
-  command 'characters:create' => :create, required: 2
-  command 'characters:delete' => :delete, required: 1
-  command 'characters:info' => :info
-  command 'characters:online' => :online
-  command 'characters:rename' => :rename, required: 2
+  %w(character characters char chars c).each do |group|
+    command "#{group}" => :list
+    command "#{group}:choose" => :choose, required: 1
+    command "#{group}:create" => :create, required: 2
+    command "#{group}:delete" => :delete, required: 1
+    command "#{group}:info" => :info
+    command "#{group}:online" => :online
+    command "#{group}:rename" => :rename, required: 2
+  end
 
   def choose(message, character_name)
     character = find_my_character!(character_name)
@@ -22,8 +24,8 @@ class CharactersBot
   end
 
   def create(message, character_name, character_class)
-    character = current_user.characters.build(name: sterilize(character_name),
-      role: sterilize(character_class))
+    character = current_user.characters.build(name: Sterilize(character_name),
+      role: Sterilize(character_class))
 
     if character.save
       character.choose!

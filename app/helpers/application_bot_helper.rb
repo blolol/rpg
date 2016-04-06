@@ -11,4 +11,8 @@ module ApplicationBotHelper
       text_containing_nick
     end
   end
+
+  def Sterilize(string)
+    Sanitize Unformat(string)
+  end
 end
