@@ -2,6 +2,7 @@ module ApplicationBot
   extend ActiveSupport::Concern
 
   included do
+    include ApplicationBotHelper
     include Cinch::Plugin
 
     set :prefix, ->(message) { Regexp.new('^' + Regexp.escape(Settings.irc.prefix) + '\s+') }

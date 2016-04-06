@@ -36,8 +36,8 @@ class CharacterInfoBotPresenter < ApplicationBotPresenter
 
   def name_and_level
     substitutions = { name_and_level: Format(:bold, :underline, @character.to_s),
-      owner: @character.user.blolol_user_data.username }
-    '%{name_and_level} played by %{owner}' % substitutions
+      silenced_owner: Silence(@character.user.blolol_user_data.username) }
+    '%{name_and_level} played by %{silenced_owner}' % substitutions
   end
 
   def penalty_description

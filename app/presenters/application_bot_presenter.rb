@@ -1,4 +1,5 @@
 class ApplicationBotPresenter
+  include ApplicationBotHelper
   include Cinch::Helpers
 
   private

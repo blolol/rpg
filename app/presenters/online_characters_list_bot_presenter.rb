@@ -18,20 +18,20 @@ class OnlineCharactersListBotPresenter < ApplicationBotPresenter
 
   private
 
-  class OrderedListCharacterPresenter
+  class OrderedListCharacterPresenter < ApplicationBotPresenter
     def initialize(character, index)
       @character = character
       @index = index
     end
 
     def index_and_description
-      "#{@index}. #{@character} played by #{owner}"
+      "#{@index}. #{@character} played by #{silenced_owner}"
     end
 
     private
 
-    def owner
-      @character.user.blolol_user_data.username
+    def silenced_owner
+      Silence @character.user.blolol_user_data.username
     end
   end
 end
