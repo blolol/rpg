@@ -1,6 +1,5 @@
 class BotInvocation
-  def initialize(bot, message)
-    @bot = bot
+  def initialize(message)
     @message = message
   end
 
@@ -35,6 +34,6 @@ class BotInvocation
   end
 
   def prefix
-    @bot.class.prefix.call @message
+    ApplicationBot.__prefix__
   end
 end

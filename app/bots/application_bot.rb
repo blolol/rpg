@@ -1,3 +1,5 @@
+require 'bot_invocation'
+
 module ApplicationBot
   extend ActiveSupport::Concern
 
@@ -13,7 +15,7 @@ module ApplicationBot
     include Cinch::Plugin
 
     # Options
-    set :prefix, ->(message) { Regexp.new('^' + Regexp.escape(Settings.irc.prefix) + '\s+') }
+    set :prefix, ->(message) { ApplicationBot.__prefix__ }
 
     # Hooks
     hook :pre, method: :cache_message
@@ -38,6 +40,10 @@ module ApplicationBot
     end
   end
 
+  def self.__prefix__
+    @__prefix__ ||= Regexp.new('^' + Regexp.escape(Settings.irc.prefix) + '\s+').freeze
+  end
+
   private
 
   def invocation
@@ -49,7 +55,7 @@ module ApplicationBot
   end
 
   def cache_invocation(message)
-    Thread.current[THREAD_INVOCATION_KEY] = BotInvocation.new(self, message)
+    Thread.current[THREAD_INVOCATION_KEY] = BotInvocation.new(message)
   end
 
   def cache_message(message)
@@ -61,9 +67,15 @@ module ApplicationBot
       User.find_or_create_by(name: Thread.current[THREAD_CURRENT_USER_NAME_KEY])
   end
 
+  def __execute_command__(command)
+    catch :halt do
+      __send__ command.command_method, message, *invocation.arguments
+    end
+  end
+
   def __execute_command_or_show_help__(command)
     if invocation.arguments.size >= command.required_arguments
-      __send__ command.command_method, message, *invocation.arguments
+      __execute_command__ command
     else
       message.reply BotHelpTopic.new(command.name).to_s
     end
