@@ -2,7 +2,8 @@ class Battle
   include ActiveModel::Validations
 
   # Attributes
-  attr_reader :challenger, :challenger_roll, :loser, :opponent, :opponent_roll, :winner
+  attr_reader :challenger, :challenger_roll, :loser, :opponent, :opponent_roll,
+    :pre_battle_challenger, :pre_battle_opponent, :winner
 
   # Validations
   validates :challenger, active: true, presence: true
@@ -11,6 +12,7 @@ class Battle
   def initialize(challenger: nil, opponent: nil)
     @challenger = challenger || find_challenger
     @opponent = opponent || find_opponent
+    cache_pre_battle_character_state
   end
 
   def challenger_won?
@@ -59,6 +61,11 @@ class Battle
 
   def apply_rewards!
     rewards.each &:apply!
+  end
+
+  def cache_pre_battle_character_state
+    @pre_battle_challenger = CachedCharacter.new(challenger)
+    @pre_battle_opponent = CachedCharacter.new(opponent)
   end
 
   def challenge_gear_score_difference

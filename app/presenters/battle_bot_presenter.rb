@@ -23,17 +23,17 @@ class BattleBotPresenter < ApplicationBotPresenter
 
   # Delegates
   delegate :challenger, :challenger_roll, :challenger_won?, :fought?, :opponent, :opponent_roll,
-    :rewards, :tie?, to: :@battle
+    :pre_battle_challenger, :pre_battle_opponent, :rewards, :tie?, to: :@battle
 
   def battle_description
-    "#{challenger_owner_possessive} #{challenger_description} challenged " \
-      "#{opponent_owner_possessive} #{opponent_description} to battle and, with a roll of " \
-      "#{challenger_roll.score} to #{opponent.name}'s #{opponent_roll.score}, " \
+    "#{challenger_owner_possessive} #{pre_battle_challenger_description} challenged " \
+      "#{opponent_owner_possessive} #{pre_battle_opponent_description} to battle and, with a " \
+      "roll of #{challenger_roll.score} to #{opponent.name}'s #{opponent_roll.score}, " \
       "#{outcome_with_punctuation}"
   end
 
-  def challenger_description
-    character_description challenger
+  def pre_battle_challenger_description
+    character_description pre_battle_challenger
   end
 
   def challenger_owner_possessive
@@ -51,8 +51,8 @@ class BattleBotPresenter < ApplicationBotPresenter
     end
   end
 
-  def opponent_description
-    character_description opponent
+  def pre_battle_opponent_description
+    character_description pre_battle_opponent
   end
 
   def opponent_owner_possessive

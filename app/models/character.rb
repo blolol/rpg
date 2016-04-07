@@ -111,8 +111,7 @@ class Character < ApplicationRecord
   end
 
   def to_s
-    "#{name} the Level #{level} #{role} (#{xp}/#{total_xp_required_for_next_level} XP, " \
-      "#{gear_score} GS)"
+    CharacterPresenter.new(self).description
   end
 
   def total_xp_required_for_next_level
