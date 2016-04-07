@@ -36,7 +36,7 @@ class Battle
   end
 
   def fought?
-    !!winner
+    !!challenger_roll && !!opponent_roll
   end
 
   def outcome_difficulty
@@ -49,6 +49,10 @@ class Battle
 
   def rewards
     @rewards ||= BattleRewards.new(self).rewards
+  end
+
+  def tie?
+    challenger_roll == opponent_roll
   end
 
   private

@@ -12,12 +12,19 @@ class BattleRewards
 
   private
 
+  # Delegates
+  delegate :tie?, to: :@battle
+
   def choose
     pool.pop.constantize.new @battle
   end
 
   def count
-    rand 1..pool.size
+    if tie?
+      0
+    else
+      rand 1..pool.size
+    end
   end
 
   def pool
