@@ -30,7 +30,7 @@ class Battle
       @challenger_roll = BattleRoll.new(challenger)
       @opponent_roll = BattleRoll.new(opponent)
 
-      @loser, @winner = *[@challenger_roll, @opponent_roll].minmax.map(&:character)
+      @loser, @winner = *[@challenger_roll, @opponent_roll].sort.map(&:character)
       apply_rewards!
     end
   end
