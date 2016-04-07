@@ -8,37 +8,22 @@ class Session < ApplicationRecord
   validates :user, presence: true, uniqueness: true
   validate :character_must_belong_to_user
 
-  def minutes_since_last_tick
-    (Time.current - updated_at) / 60
+  def last_tick_at
+    super || updated_at
   end
 
   def tick!
-    character.with_lock do
-      character.add_xp xp_earned_since_last_tick
-      character.save!
-      touch
+    transaction do
+      character.add_xp_earned_since_last_tick!
+      touch :last_tick_at
     end
-  end
-
-  def xp_earned_since_last_tick
-    base_xp_earned_since_last_tick + effect_xp_earned_since_last_tick
   end
 
   private
 
-  def base_xp_earned_since_last_tick
-    (minutes_since_last_tick * Settings.game.base_xp_per_tick).round
-  end
-
   def character_must_belong_to_user
     if character.user != user
       errors.add :base, "Character #{character.name} doesn't belong to user #{user.name}"
-    end
-  end
-
-  def effect_xp_earned_since_last_tick
-    character.effects.sum do |effect|
-      effect.xp_earned_since_last_tick minutes_since_last_tick
     end
   end
 end

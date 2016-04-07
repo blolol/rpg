@@ -6,7 +6,7 @@ defaults: &defaults
     base_xp_per_tick: <%= ENV.fetch('BASE_XP_PER_TICK', 4).to_i %>
     battle_probability_per_tick: <%= ENV.fetch('BATTLE_PROBABILITY', 1.0 / 60.0).to_f %>
     find_item_probability_per_tick: <%= ENV.fetch('FIND_ITEM_PROBABILITY', 1.0 / 60.0).to_f %>
-    premium_xp_per_tick: <%= ENV.fetch('PREMIUM_XP_PER_TICK', 1).to_i %>
+    premium_xp_rate_modifier: <%= ENV.fetch('PREMIUM_XP_RATE_MODIFIER', 0.25).to_f %>
     seconds_between_ticks: <%= ENV.fetch('SECONDS_BETWEEN_TICKS', 60).to_i %>
   irc:
     channels: "<%= ENV['IRC_CHANNELS'] %>"

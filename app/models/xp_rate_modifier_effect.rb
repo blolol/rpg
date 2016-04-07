@@ -14,14 +14,14 @@ class XpRateModifierEffect < Effect
     true
   end
 
-  def xp_earned_since_last_tick(minutes_since_last_tick)
-    (minutes_since_last_tick * xp_per_tick).round
+  def xp_rate_modifier
+    @xp_rate_modifier ||= Float(metadata['modifier'] || DEFAULT_MODIFIER)
   end
 
   private
 
   def bonus_or_less
-    if modifier.positive?
+    if xp_rate_modifier.positive?
       'bonus'
     else
       'less'
@@ -29,22 +29,14 @@ class XpRateModifierEffect < Effect
   end
 
   def bonus_or_penalty
-    if modifier.positive?
+    if xp_rate_modifier.positive?
       'Bonus'
     else
       'Penalty'
     end
   end
 
-  def modifier
-    @modifier ||= Float(metadata['modifier'] || DEFAULT_MODIFIER)
-  end
-
   def modifier_percentage
-    (modifier.to_f * 100).round
-  end
-
-  def xp_per_tick
-    (Settings.game.base_xp_per_tick * modifier).round
+    (xp_rate_modifier.to_f * 100).round
   end
 end

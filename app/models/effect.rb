@@ -24,7 +24,7 @@ class Effect < ApplicationRecord
     raise NotImplementedError
   end
 
-  def xp_earned_since_last_tick(minutes_since_last_tick)
+  def xp_rate_modifier
     0
   end
 

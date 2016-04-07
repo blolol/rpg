@@ -30,6 +30,9 @@ class Character < ApplicationRecord
   after_level_up :announce_level_up_in_chat
   after_create :refresh_premium_subscriber_status!
 
+  # Delegates
+  delegate :xp_earned_per_tick, :xp_earned_since_last_tick, to: :xp_calculator
+
   def active?
     session.present?
   end
@@ -39,12 +42,19 @@ class Character < ApplicationRecord
     adjust_level!
   end
 
+  def add_xp_earned_since_last_tick!
+    if active?
+      add_xp xp_earned_since_last_tick
+      save!
+    end
+  end
+
   def base_gear_score
     items.sum :level
   end
 
   def choose!
-    user.with_lock do
+    transaction do
       user.session&.destroy
       user.create_session character: self
     end
@@ -72,9 +82,9 @@ class Character < ApplicationRecord
   end
 
   def estimated_seconds_to_next_level
-    if session
-      xp_per_second = (session.xp_earned_since_last_tick / session.minutes_since_last_tick) / 60.0
-      xp_required_for_next_level / xp_per_second
+    if xp_earned_per_tick.positive?
+      ticks_required_for_next_level = xp_required_for_next_level / xp_earned_per_tick
+      Settings.game.seconds_between_ticks * ticks_required_for_next_level
     end
   end
 
@@ -150,5 +160,9 @@ class Character < ApplicationRecord
         errors.add :items, "can't have more than one item in the #{slot} slot"
       end
     end
+  end
+
+  def xp_calculator
+    @xp_calculator ||= XpCalculator.new(self)
   end
 end

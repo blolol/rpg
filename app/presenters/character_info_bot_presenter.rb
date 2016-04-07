@@ -50,9 +50,12 @@ class CharacterInfoBotPresenter < ApplicationBotPresenter
   private
 
   def estimated_time_to_next_level
-    if @character.active?
+    if @character.xp_earned_per_tick.positive?
       next_level_at = Time.current + @character.estimated_seconds_to_next_level
       "#{time_ago_in_words(next_level_at)} until level #{@character.level.next}"
+    else
+      "but is not currently earning any XP, so it'll be a long time before " \
+        "level #{@character.level.next}!"
     end
   end
 

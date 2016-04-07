@@ -38,7 +38,7 @@ There are several optional environment variables you can use to tweak gameplay:
 | `BASE_XP_PER_TICK` | XP earned by active characters every game tick. | 4 |
 | `BATTLE_PROBABILITY` | The probability, from 0.0 to 1.0, that a random battle will occur on any given game tick. | 0.016 |
 | `FIND_ITEM_PROBABILITY` | The probability, per game tick, that some active character will find an item. | 0.016 |
-| `PREMIUM_XP_PER_TICK` | The bonus XP earned by Blolol Premium subscribers' active characters every game tick. | 1 |
+| `PREMIUM_XP_RATE_MODIFIER` | The rate of bonus XP earned by Blolol Premium subscribers' active characters every game tick. | 0.25 |
 | `SECONDS_BETWEEN_TICKS` | The number of seconds between game ticks. | 60 |
 
 Start the game loop, background workers, IRC bot and web server using Foreman.
