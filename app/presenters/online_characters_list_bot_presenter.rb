@@ -25,10 +25,14 @@ class OnlineCharactersListBotPresenter < ApplicationBotPresenter
     end
 
     def index_and_description
-      "#{@index}. #{silenced_character} played by #{silenced_owner}"
+      "#{@index}. #{silenced_character} played by #{silenced_owner}#{premium}"
     end
 
     private
+
+    def premium
+      PremiumBotPresenter.new @character
+    end
 
     def silenced_character
       Silence @character.to_s
