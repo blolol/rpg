@@ -6,10 +6,10 @@ class XpBattleReward < BattleReward
   def apply!
     if challenger_won?
       challenger.add_xp xp_reward
-      @description = "was rewarded #{xp_reward} XP for a #{challenge_fairness} fight"
+      @description = "was #{rewarded} #{xp_reward} XP for a #{fairness} fight"
     else
       challenger.xp_penalty += xp_penalty
-      @description = "was penalized #{xp_penalty} XP for a #{challenge_fairness} fight"
+      @description = "was #{penalized} #{xp_penalty} XP for a #{fairness} #{attempt_or_fight}"
     end
 
     challenger.save!
@@ -17,25 +17,49 @@ class XpBattleReward < BattleReward
 
   private
 
+  def attempt_or_fight
+    if !challenger_won? && fairness == :courageous
+      'attempt'
+    else
+      'fight'
+    end
+  end
+
+  def penalized
+    if fairness == :courageous
+      'only penalized'
+    else
+      'penalized'
+    end
+  end
+
+  def rewarded
+    if fairness == :cowardly
+      'only rewarded'
+    else
+      'rewarded'
+    end
+  end
+
   def xp_penalty
-    @xp_penalty ||= case challenge_fairness
+    @xp_penalty ||= case fairness
       when :fair
-        (((opponent.level / 7.0) / 100.0) * challenger.xp_required_for_next_level).round
+        ((rand(8..40) / 100.0) * challenger.xp_required_for_next_level).round
       when :courageous
-        (((challenge_difficulty.abs / 10.0) / 100.0) * challenger.xp_required_for_next_level).round
+        ((rand(1..5) / 100.0) * challenger.xp_required_for_next_level).round
       when :cowardly
-        ((challenge_difficulty.abs / 100.0) * challenger.xp_required_for_next_level).round
+        ((rand(45..75) / 100.0) * challenger.xp_required_for_next_level).round
       end
   end
 
   def xp_reward
-    @xp_reward ||= case challenge_fairness
+    @xp_reward ||= case fairness
       when :fair
-        (((opponent.level / 4.0) / 100.0) * challenger.xp_required_for_next_level).round
+        ((rand(8..40) / 100.0) * challenger.xp_required_for_next_level).round
       when :courageous
-        ((challenge_difficulty.abs / 100.0) * challenger.xp_required_for_next_level).round
+        ((rand(45..75) / 100.0) * challenger.xp_required_for_next_level).round
       when :cowardly
-        (((challenge_difficulty.abs / 10.0) / 100.0) * challenger.xp_required_for_next_level).round
+        ((rand(1..5) / 100.0) * challenger.xp_required_for_next_level).round
       end
   end
 end

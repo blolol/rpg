@@ -9,6 +9,5 @@ class BattleReward
   private
 
   # Delegates
-  delegate :challenger, :challenger_won?, :challenge_difficulty, :challenge_fairness, :loser,
-    :opponent, :outcome_difficulty, :outcome_fairness, :winner, to: :@battle
+  delegate :challenger, :challenger_won?, :fairness, :loser, :opponent, :winner, to: :@battle
 end

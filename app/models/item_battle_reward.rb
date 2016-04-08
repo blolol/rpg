@@ -5,9 +5,9 @@ class ItemBattleReward < BattleReward
 
   def apply!
     if winner_wants_item? && winner_equipped_item?
-      @description = "#{claim_description} #{loser.name}'s #{item_description}"
+      @description = "#{claim_description} #{loser.name}'s #{item_description} as a prize"
     elsif item&.destroy
-      @description = "#{destruction_description} #{loser.name}'s #{item_description}"
+      @description = "spitefully destroyed #{loser.name}'s #{item_description}"
     end
 
     if winner_gave_dropped_item_to_loser?
@@ -17,28 +17,6 @@ class ItemBattleReward < BattleReward
   end
 
   private
-
-  def claim_description
-    case outcome_fairness
-    when :fair
-      'fairly claimed'
-    when :courageous
-      'victoriously claimed'
-    when :cowardly
-      'cowardly stole'
-    end
-  end
-
-  def destruction_description
-    case outcome_fairness
-    when :fair
-      'destroyed'
-    when :courageous
-      'victoriously destroyed'
-    when :cowardly
-      'cruelly destroyed'
-    end
-  end
 
   def item
     @item ||= loser.items.where(enduring: false).order(level: :desc).first
