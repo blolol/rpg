@@ -19,10 +19,14 @@ en:
       characters:online: |
         Usage: characters:online
         List all online characters.
+      characters:reclass: |
+        Usage: characters:reclass <character name> <new character class>
+        Retrain <character name> as <new character class>.
+        Penalty: 100% additional XP required to level up.
       characters:rename: |
         Usage: characters:rename <old character name> <new character name>
         Rename <old character name> to <new character name>.
-        Penalty: 10% additional XP required to level up.
+        Penalty: 100% additional XP required to level up.
       help: |
         Usage: help <command>
         Display help for <command>. Valid commands:
@@ -32,4 +36,5 @@ en:
           characters:delete
           characters:info
           characters:online
+          characters:reclass
           characters:rename

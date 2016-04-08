@@ -9,6 +9,7 @@ class CharactersBot
     command "#{group}:delete" => :delete, required: 1
     command "#{group}:info" => :info
     command "#{group}:online" => :online
+    command "#{group}:reclass" => :reclass, required: 2
     command "#{group}:rename" => :rename, required: 2
   end
 
@@ -90,11 +91,30 @@ class CharactersBot
     end
   end
 
+  def reclass(message, name, new_class)
+    character = find_my_character!(name)
+
+    old_class = character.role
+    additional_xp_penalty = character.total_xp_required_for_next_level
+
+    character.role = new_class
+    character.xp_penalty += additional_xp_penalty
+
+    if character.save
+      message.reply "#{character.name} the Level #{character.level} #{old_class} has retrained " \
+        "as a #{new_class}, and must earn an additional #{additional_xp_penalty} XP to reach " \
+        "level #{character.level.next}!"
+    else
+      message.reply "Couldn't reclass #{character.name}! #{character.errors.full_messages.first}",
+        prefix: true
+    end
+  end
+
   def rename(message, old_name, new_name)
     character = find_my_character!(old_name)
 
     old_name = character.name
-    additional_xp_penalty = (character.total_xp_required_for_next_level * 0.1).round
+    additional_xp_penalty = character.total_xp_required_for_next_level
 
     character.name = new_name
     character.xp_penalty += additional_xp_penalty
