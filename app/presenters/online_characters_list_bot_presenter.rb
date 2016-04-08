@@ -25,10 +25,14 @@ class OnlineCharactersListBotPresenter < ApplicationBotPresenter
     end
 
     def index_and_description
-      "#{@index}. #{@character} played by #{silenced_owner}"
+      "#{@index}. #{silenced_character} played by #{silenced_owner}"
     end
 
     private
+
+    def silenced_character
+      Silence @character.to_s
+    end
 
     def silenced_owner
       Silence @character.user.blolol_user_data.username
