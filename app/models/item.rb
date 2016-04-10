@@ -17,8 +17,8 @@ class Item < ApplicationRecord
   validates :slot, presence: true, inclusion: { in: Character::SLOTS },
     uniqueness: { scope: :character }
 
-  def self.drop(character)
-    ItemDrop.new(character).item
+  def self.drop(character, *options)
+    ItemDrop.new(character, *options).item
   end
 
   def to_s

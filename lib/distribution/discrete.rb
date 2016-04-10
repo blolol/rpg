@@ -11,10 +11,11 @@ module Distribution
       end
 
       @values = values_and_probabilities.keys
-      @probabilities = values_and_probabilities.values
+      @probabilities = values_and_probabilities.values.map(&:to_r)
 
-      unless @probabilities.inject(0) { |p, sum| sum += p } == 1
-        raise ArgumentError, 'Probabilities must have a sum of 1'
+      sum_of_probabilities = @probabilities.inject(0) { |p, sum| sum += p }
+      unless sum_of_probabilities == 1
+        raise ArgumentError, "Probabilities must have a sum of 1, not #{sum_of_probabilities}"
       end
 
       # Allocate space for the probability and alias tables.
