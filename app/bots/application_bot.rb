@@ -41,7 +41,7 @@ module ApplicationBot
   end
 
   def self.__prefix__
-    @__prefix__ ||= Regexp.new('^' + Regexp.escape(Settings.irc.prefix) + '\s+').freeze
+    @__prefix__ ||= Regexp.new('\A' + Regexp.escape(Settings.irc.prefix) + '\s+').freeze
   end
 
   private

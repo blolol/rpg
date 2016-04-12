@@ -12,7 +12,7 @@ class BotInvocation
   end
 
   def command?
-    command.present?
+    prefixed? && command.present?
   end
 
   def to_a
@@ -35,5 +35,9 @@ class BotInvocation
 
   def prefix
     ApplicationBot.__prefix__
+  end
+
+  def prefixed?
+    @message.message =~ prefix
   end
 end
