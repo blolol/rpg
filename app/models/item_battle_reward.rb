@@ -5,7 +5,7 @@ class ItemBattleReward < BattleReward
 
   def apply!
     if winner_wants_item? && winner_equipped_item?
-      @description = "#{claim_description} #{loser.name}'s #{item_description} as a prize"
+      @description = "claimed #{loser.name}'s #{item_description} as a prize"
     elsif item&.destroy
       @description = "spitefully destroyed #{loser.name}'s #{item_description}"
     end
