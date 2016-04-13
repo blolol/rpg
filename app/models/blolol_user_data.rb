@@ -7,6 +7,10 @@ class BlololUserData < ApplicationRecord
   validates :user, presence: true, uniqueness: true
   validates :username, presence: true
 
+  def admin?
+    roles.include? 'admin'
+  end
+
   def self.fetch(name)
     user = BlololApiClient.user(name)
 

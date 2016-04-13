@@ -127,28 +127,4 @@ class CharactersBot
         prefix: true
     end
   end
-
-  private
-
-  def find_character!(character_name)
-    character = Character.find_by('name ILIKE ?', character_name)
-
-    if character
-      character
-    else
-      message.reply "There's no character named #{character_name} :(", prefix: true
-      throw :halt
-    end
-  end
-
-  def find_my_character!(character_name)
-    character = current_user.find_character(character_name)
-
-    if character
-      character
-    else
-      message.reply "You don't have a character named #{character_name} :(", prefix: true
-      throw :halt
-    end
-  end
 end

@@ -12,7 +12,7 @@ class User < ApplicationRecord
   before_validation :ensure_blolol_user_data, on: :create
 
   # Delegates
-  delegate :premium?, to: :blolol_user_data
+  delegate :admin?, :premium?, to: :blolol_user_data
 
   def blolol_user_data
     super&.refreshed

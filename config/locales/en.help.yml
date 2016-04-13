@@ -1,6 +1,15 @@
 en:
   irc:
     help:
+      admin:battle: |
+        Usage: admin:battle <challenger name> <opponent name>
+        Cause two random characters, or <challenger name> and <opponent name>, to fight a battle.
+      admin:penalize: |
+        Usage: admin:penalize <character name> <xp penalty>
+        Penalize <character name> by <xp penalty> XP.
+      admin:xp: |
+        Usage: admin:xp <character name> <additional xp>
+        Grant <character name> <additional xp> XP, possibly causing them to level up.
       characters: |
         Usage: characters
         List your characters.
